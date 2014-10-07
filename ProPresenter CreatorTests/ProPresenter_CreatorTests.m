@@ -1,0 +1,40 @@
+//
+//  ProPresenter_CreatorTests.m
+//  ProPresenter CreatorTests
+//
+//  Created by Jason Terhorst on 10/6/14.
+//  Copyright (c) 2014 Jason Terhorst. All rights reserved.
+//
+
+#import <Cocoa/Cocoa.h>
+#import <XCTest/XCTest.h>
+
+@interface ProPresenter_CreatorTests : XCTestCase
+
+@end
+
+@implementation ProPresenter_CreatorTests
+
+- (void)setUp {
+    [super setUp];
+    // Put setup code here. This method is called before the invocation of each test method in the class.
+}
+
+- (void)tearDown {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [super tearDown];
+}
+
+- (void)testExample {
+    // This is an example of a functional test case.
+    XCTAssert(YES, @"Pass");
+}
+
+- (void)testPerformanceExample {
+    // This is an example of a performance test case.
+    [self measureBlock:^{
+        // Put the code you want to measure the time of here.
+    }];
+}
+
+@end
