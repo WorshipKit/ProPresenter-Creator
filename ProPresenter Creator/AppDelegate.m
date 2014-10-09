@@ -26,16 +26,22 @@
 //	NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:data options:@{NSDocumentTypeDocumentOption:NSRTFTextDocumentType} documentAttributes:NULL error:nil];
 //	NSLog(@"document: %@", [attributedString string]);
 
-    NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:@"Testing Title" attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:55], NSForegroundColorAttributeName:[NSColor whiteColor]}];
-	NSData * titleDataBlob = [titleString RTFFromRange:NSMakeRange(0, titleString.length) documentAttributes:nil];
-	NSString * titleData = [titleDataBlob base64EncodedStringWithOptions:0];
     
-	NSString * slide1Test = [self _outputForBlankSlideAtIndex:0];
-	NSString * titleTest = [self _outputForSlideWithTitle:titleData atIndex:1];
-	NSString * groupOutput = [self _outputTemplateForGroupAtIndex:0 contentString:[NSString stringWithFormat:@"%@%@", slide1Test, titleTest]];
-	NSString * documentTest = [self _outputTemplateForWideWithTitle:@"Sermon Test" groupContent:groupOutput];
+}
 
-	NSLog(@"test: %@", documentTest);
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+	// Insert code here to tear down your application
+}
+
+
+- (void)_saveSlidesFromArray:(NSArray *)slideArray
+{
+//    NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:@"Testing Title" attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:55], NSForegroundColorAttributeName:[NSColor whiteColor]}];
+//    NSData * titleDataBlob = [titleString RTFFromRange:NSMakeRange(0, titleString.length) documentAttributes:nil];
+//    NSString * titleData = [titleDataBlob base64EncodedStringWithOptions:0];
+//    
+//    NSString * slide1Test = [self _outputForBlankSlideAtIndex:0];
+//    NSString * titleTest = [self _outputForSlideWithTitle:titleData atIndex:1];
     
     NSSavePanel * documentSavePanel = [NSSavePanel savePanel];
     [documentSavePanel setAllowedFileTypes:@[@"pro5"]];
@@ -45,6 +51,43 @@
     if (saveResult == NSOKButton)
     {
         NSURL * resultingFileURL = [documentSavePanel URL];
+        
+        int slideIndex = 0;
+        NSMutableArray * filePaths = [NSMutableArray array];
+        NSMutableString * slideData = [NSMutableString string];
+        for (NSDictionary * slide in slideArray)
+        {
+            if ([[slide valueForKey:@"type"] isEqualToString:@"blank"])
+            {
+                [slideData appendString:[self _outputForBlankSlideAtIndex:slideIndex]];
+            }
+            else if ([[slide valueForKey:@"type"] isEqualToString:@"title"])
+            {
+                [slideData appendString:[self _outputForSlideWithTitle:[slide valueForKey:@"title"] atIndex:slideIndex]];
+            }
+            else if ([[slide valueForKey:@"type"] isEqualToString:@"point"])
+            {
+                [slideData appendString:[self _outputForSlideWithPoint:[slide valueForKey:@"text"] atIndex:slideIndex]];
+            }
+            else if ([[slide valueForKey:@"type"] isEqualToString:@"scripture"])
+            {
+                [slideData appendString:[self _outputForScriptureSlidesWithBody:[slide valueForKey:@"text"] reference:[slide valueForKey:@"reference"] atIndex:slideIndex]];
+            }
+            else if ([[slide valueForKey:@"type"] isEqualToString:@"media"])
+            {
+                NSString * filePath = [slide valueForKey:@"file"];
+                [filePaths addObject:filePath];
+                [slideData appendString:[self _outputForMediaSlideAtPath:filePath atIndex:slideIndex]];
+            }
+            
+            slideIndex++;
+        }
+        
+        NSString * groupOutput = [self _outputTemplateForGroupAtIndex:0 contentString:slideData];
+        NSString * documentTest = [self _outputTemplateForWideWithTitle:[[[resultingFileURL absoluteString] lastPathComponent] stringByDeletingPathExtension] groupContent:groupOutput];
+        
+        NSLog(@"test: %@", documentTest);
+        
         NSError * error = nil;
         [documentTest writeToURL:resultingFileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
         if (error)
@@ -52,10 +95,6 @@
             [[NSAlert alertWithMessageText:@"Error while trying to save" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", [error localizedDescription]] runModal];
         }
     }
-}
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-	// Insert code here to tear down your application
 }
 
 - (NSString *)_outputTemplateForWideWithTitle:(NSString *)sermonTitle groupContent:(NSString *)groupContent
