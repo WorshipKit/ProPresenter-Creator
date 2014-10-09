@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 
+#import "ZipArchive.h"
+
 @interface AppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
@@ -24,17 +26,32 @@
 //	NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:data options:@{NSDocumentTypeDocumentOption:NSRTFTextDocumentType} documentAttributes:NULL error:nil];
 //	NSLog(@"document: %@", [attributedString string]);
 
-	NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:@"Testing Title" attributes:nil];
+    NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:@"Testing Title" attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:55], NSForegroundColorAttributeName:[NSColor whiteColor]}];
 	NSData * titleDataBlob = [titleString RTFFromRange:NSMakeRange(0, titleString.length) documentAttributes:nil];
 	NSString * titleData = [titleDataBlob base64EncodedStringWithOptions:0];
-
+    
 	NSString * slide1Test = [self _outputForBlankSlideAtIndex:0];
 	NSString * titleTest = [self _outputForSlideWithTitle:titleData atIndex:1];
 	NSString * groupOutput = [self _outputTemplateForGroupAtIndex:0 contentString:[NSString stringWithFormat:@"%@%@", slide1Test, titleTest]];
 	NSString * documentTest = [self _outputTemplateForWideWithTitle:@"Sermon Test" groupContent:groupOutput];
 
 	NSLog(@"test: %@", documentTest);
-
+    
+    NSSavePanel * documentSavePanel = [NSSavePanel savePanel];
+    [documentSavePanel setAllowedFileTypes:@[@"pro5"]];
+    [documentSavePanel setAllowsOtherFileTypes:NO];
+    [documentSavePanel setExtensionHidden:NO];
+    NSInteger saveResult = [documentSavePanel runModal];
+    if (saveResult == NSOKButton)
+    {
+        NSURL * resultingFileURL = [documentSavePanel URL];
+        NSError * error = nil;
+        [documentTest writeToURL:resultingFileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        if (error)
+        {
+            [[NSAlert alertWithMessageText:@"Error while trying to save" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", [error localizedDescription]] runModal];
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

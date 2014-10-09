@@ -13,6 +13,13 @@
 		581D3E6419E36F9E004AD7A6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 581D3E6319E36F9E004AD7A6 /* Images.xcassets */; };
 		581D3E6719E36F9E004AD7A6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 581D3E6519E36F9E004AD7A6 /* MainMenu.xib */; };
 		581D3E7319E36F9E004AD7A6 /* ProPresenter_CreatorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 581D3E7219E36F9E004AD7A6 /* ProPresenter_CreatorTests.m */; };
+		58A1A0EE19E71FD20083CD69 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 58A1A0E119E71FD20083CD69 /* ioapi.c */; };
+		58A1A0EF19E71FD20083CD69 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 58A1A0E419E71FD20083CD69 /* mztools.c */; };
+		58A1A0F019E71FD20083CD69 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = 58A1A0E719E71FD20083CD69 /* SSZipArchive.m */; };
+		58A1A0F119E71FD20083CD69 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 58A1A0E819E71FD20083CD69 /* unzip.c */; };
+		58A1A0F219E71FD20083CD69 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 58A1A0EA19E71FD20083CD69 /* zip.c */; };
+		58A1A0F319E71FD20083CD69 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 58A1A0ED19E71FD20083CD69 /* ZipArchive.mm */; };
+		58A1A0F519E7209F0083CD69 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 58A1A0F419E7209F0083CD69 /* libz.1.2.5.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +44,21 @@
 		581D3E6C19E36F9E004AD7A6 /* ProPresenter CreatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ProPresenter CreatorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		581D3E7119E36F9E004AD7A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		581D3E7219E36F9E004AD7A6 /* ProPresenter_CreatorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProPresenter_CreatorTests.m; sourceTree = "<group>"; };
+		58A1A0E019E71FD20083CD69 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		58A1A0E119E71FD20083CD69 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		58A1A0E219E71FD20083CD69 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		58A1A0E319E71FD20083CD69 /* minizip-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "minizip-Prefix.pch"; sourceTree = "<group>"; };
+		58A1A0E419E71FD20083CD69 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		58A1A0E519E71FD20083CD69 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		58A1A0E619E71FD20083CD69 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
+		58A1A0E719E71FD20083CD69 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		58A1A0E819E71FD20083CD69 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		58A1A0E919E71FD20083CD69 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		58A1A0EA19E71FD20083CD69 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		58A1A0EB19E71FD20083CD69 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		58A1A0EC19E71FD20083CD69 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		58A1A0ED19E71FD20083CD69 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		58A1A0F419E7209F0083CD69 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58A1A0F519E7209F0083CD69 /* libz.1.2.5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +83,7 @@
 		581D3E4D19E36F9E004AD7A6 = {
 			isa = PBXGroup;
 			children = (
+				58A1A0F419E7209F0083CD69 /* libz.1.2.5.dylib */,
 				581D3E5819E36F9E004AD7A6 /* ProPresenter Creator */,
 				581D3E6F19E36F9E004AD7A6 /* ProPresenter CreatorTests */,
 				581D3E5719E36F9E004AD7A6 /* Products */,
@@ -78,6 +102,7 @@
 		581D3E5819E36F9E004AD7A6 /* ProPresenter Creator */ = {
 			isa = PBXGroup;
 			children = (
+				58A1A0DF19E71FD20083CD69 /* minizip */,
 				581D3E5D19E36F9E004AD7A6 /* AppDelegate.h */,
 				581D3E5E19E36F9E004AD7A6 /* AppDelegate.m */,
 				581D3E6319E36F9E004AD7A6 /* Images.xcassets */,
@@ -112,6 +137,27 @@
 				581D3E7119E36F9E004AD7A6 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		58A1A0DF19E71FD20083CD69 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				58A1A0E019E71FD20083CD69 /* crypt.h */,
+				58A1A0E119E71FD20083CD69 /* ioapi.c */,
+				58A1A0E219E71FD20083CD69 /* ioapi.h */,
+				58A1A0E319E71FD20083CD69 /* minizip-Prefix.pch */,
+				58A1A0E419E71FD20083CD69 /* mztools.c */,
+				58A1A0E519E71FD20083CD69 /* mztools.h */,
+				58A1A0E619E71FD20083CD69 /* SSZipArchive.h */,
+				58A1A0E719E71FD20083CD69 /* SSZipArchive.m */,
+				58A1A0E819E71FD20083CD69 /* unzip.c */,
+				58A1A0E919E71FD20083CD69 /* unzip.h */,
+				58A1A0EA19E71FD20083CD69 /* zip.c */,
+				58A1A0EB19E71FD20083CD69 /* zip.h */,
+				58A1A0EC19E71FD20083CD69 /* ZipArchive.h */,
+				58A1A0ED19E71FD20083CD69 /* ZipArchive.mm */,
+			);
+			path = minizip;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,8 +260,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				581D3E6219E36F9E004AD7A6 /* ProPresenter_Creator.xcdatamodeld in Sources */,
+				58A1A0F219E71FD20083CD69 /* zip.c in Sources */,
+				58A1A0F119E71FD20083CD69 /* unzip.c in Sources */,
 				581D3E5F19E36F9E004AD7A6 /* AppDelegate.m in Sources */,
+				58A1A0F019E71FD20083CD69 /* SSZipArchive.m in Sources */,
+				58A1A0EE19E71FD20083CD69 /* ioapi.c in Sources */,
 				581D3E5C19E36F9E004AD7A6 /* main.m in Sources */,
+				58A1A0F319E71FD20083CD69 /* ZipArchive.mm in Sources */,
+				58A1A0EF19E71FD20083CD69 /* mztools.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +454,7 @@
 				581D3E7819E36F9E004AD7A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		581D3E7919E36F9E004AD7A6 /* Build configuration list for PBXNativeTarget "ProPresenter CreatorTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +463,7 @@
 				581D3E7B19E36F9E004AD7A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
