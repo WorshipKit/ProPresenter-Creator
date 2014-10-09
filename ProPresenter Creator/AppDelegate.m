@@ -18,7 +18,12 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application
+
+	NSString * rtfTestData = @"e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMzI4XGNvY29hc3VicnRmMTEwClxjb2NvYXNjcmVlbmZvbnRzMXtcZm9udHRibFxmMFxmbmlsXGZjaGFyc2V0MCBNeXJpYWRQcm8tUmVndWxhcjt9CntcY29sb3J0Ymw7XHJlZDI1NVxncmVlbjI1NVxibHVlMjU1O30KXHBhcmRcdHg1NjBcdHgxMTIwXHR4MTY4MFx0eDIyNDBcdHgyODAwXHR4MzM2MFx0eDM5MjBcdHg0NDgwXHR4NTA0MFx0eDU2MDBcdHg2MTYwXHR4NjcyMFxwYXJkaXJuYXR1cmFsXHFjCgpcZjBcYlxmczExOCBcY2YxIFRyYW5zY2VuZGVuY2VcCgpcYjAgV2h5IGlzIEdvZCBzbyBkaXN0YW50P30=";
+	NSData * data = [[NSData alloc] initWithBase64EncodedString:rtfTestData options:0];
+	NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:data options:@{NSDocumentTypeDocumentOption:NSRTFTextDocumentType} documentAttributes:NULL error:nil];
+	NSLog(@"document: %@", [attributedString string]);
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
