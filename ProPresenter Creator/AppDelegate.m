@@ -26,7 +26,13 @@
 //	NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:data options:@{NSDocumentTypeDocumentOption:NSRTFTextDocumentType} documentAttributes:NULL error:nil];
 //	NSLog(@"document: %@", [attributedString string]);
 
+    NSMutableArray * slideArray = [NSMutableArray array];
+    [slideArray addObject:@{@"type":@"blank"}];
+    //[slideArray addObject:@{@"type":@"media", @"path":@""}];
+    [slideArray addObject:@{@"type":@"title", @"text":@"Title Slide"}];
+    [slideArray addObject:@{@"type":@"scripture", @"text":@"Testing scripture text body.", @"reference":@"Scripture 3:16 (NIV)"}];
     
+    [self _saveSlidesFromArray:slideArray];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
@@ -63,7 +69,7 @@
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"title"])
             {
-                [slideData appendString:[self _outputForSlideWithTitle:[slide valueForKey:@"title"] atIndex:slideIndex]];
+                [slideData appendString:[self _outputForSlideWithTitle:[slide valueForKey:@"text"] atIndex:slideIndex]];
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"point"])
             {
@@ -75,7 +81,7 @@
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"media"])
             {
-                NSString * filePath = [slide valueForKey:@"file"];
+                NSString * filePath = [slide valueForKey:@"path"];
                 [filePaths addObject:filePath];
                 [slideData appendString:[self _outputForMediaSlideAtPath:filePath atIndex:slideIndex]];
             }
