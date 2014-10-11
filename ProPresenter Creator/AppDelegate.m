@@ -10,6 +10,21 @@
 
 #import "ZipArchive.h"
 
+CGFloat kxTitleFontSize = 117.0f;
+CGFloat kxRegularFontSize = 108.0f;
+NSInteger kxSlideWidth = 2560;
+NSInteger kxSlideHeight = 1440;
+
+CGFloat parkwayTitleFontSize = 50.0f;
+CGFloat parkwayRegularFontSize = 45.0f;
+NSInteger parkwaySlideWidth = 1024;
+NSInteger parkwaySlideHeight = 768;
+
+typedef enum {
+	KnoxvilleSlideStyle,
+	ParkwaySlideStyle,
+} SlideStyle;
+
 @interface AppDelegate ()
 
 @property (weak) IBOutlet NSWindow *window;
@@ -28,82 +43,182 @@
 
     NSMutableArray * slideArray = [NSMutableArray array];
     [slideArray addObject:@{@"type":@"blank"}];
-    //[slideArray addObject:@{@"type":@"media", @"path":@""}];
-    [slideArray addObject:@{@"type":@"title", @"text":@"Title Slide"}];
-    [slideArray addObject:@{@"type":@"scripture", @"text":@"Testing scripture text body.", @"reference":@"Scripture 3:16 (NIV)"}];
-    
-    [self _saveSlidesFromArray:slideArray];
+	[slideArray addObject:@{@"type":@"media", @"path":@"/Users/jterhorst/Dropbox/Sermon slide pro5 files/generous-life-widescreen.png"}];
+	[slideArray addObject:@{@"type":@"title", @"text":@"Shake it off"}];
+	[slideArray addObject:@{@"type":@"point", @"text":@"Haters gonna hate hate hate hate"}];
+//	NSAttributedString * scriptureString = [[NSAttributedString alloc] initWithString:@"Testing scripture text body." attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont boldSystemFontOfSize:45]}];
+//	NSAttributedString * referenceString = [[NSAttributedString alloc] initWithString:@"Scripture 3:16 (NIV)" attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont systemFontOfSize:45]}];
+	[slideArray addObject:@{@"type":@"scripture", @"text":@"Testing scripture text body", @"reference":@"Scripture 3:16 (NIV)"}];
+//    
+    [self _saveSlidesFromArray:slideArray inStyle:ParkwaySlideStyle];
+}
+
+- (NSString *)dataStringFromAttributedString:(NSAttributedString *)string
+{
+	NSData * titleDataBlob = [string RTFFromRange:NSMakeRange(0, string.length) documentAttributes:nil];
+	NSString * titleData = [titleDataBlob base64EncodedStringWithOptions:0];
+	return titleData;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
 	// Insert code here to tear down your application
 }
 
-
-- (void)_saveSlidesFromArray:(NSArray *)slideArray
+- (NSString *)_resultUpdatingTemplate:(NSString *)template withDictionary:(NSDictionary *)dict
 {
-//    NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:@"Testing Title" attributes:@{NSFontAttributeName:[NSFont systemFontOfSize:55], NSForegroundColorAttributeName:[NSColor whiteColor]}];
-//    NSData * titleDataBlob = [titleString RTFFromRange:NSMakeRange(0, titleString.length) documentAttributes:nil];
-//    NSString * titleData = [titleDataBlob base64EncodedStringWithOptions:0];
+	NSString * resultPayload = template;
+	for (NSString * key in [dict allKeys])
+	{
+		resultPayload = [resultPayload stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"{%@}", key] withString:[dict valueForKey:key]];
+	}
+
+	return resultPayload;
+}
+
+- (void)_saveSlidesFromArray:(NSArray *)slideArray inStyle:(SlideStyle)style
+{
+
 //    
 //    NSString * slide1Test = [self _outputForBlankSlideAtIndex:0];
 //    NSString * titleTest = [self _outputForSlideWithTitle:titleData atIndex:1];
-    
+
+	NSInteger slideWidth = kxSlideWidth;
+	NSInteger slideHeight = kxSlideHeight;
+	CGFloat titleFontSize = kxTitleFontSize;
+	CGFloat regularFontSize = kxRegularFontSize;
+
+	NSString * documentTemplatePath = [[NSBundle mainBundle] pathForResource:@"pro5document" ofType:@"slidetemplate"];
+	NSString * titleTemplatePath = [[NSBundle mainBundle] pathForResource:@"title" ofType:@"slidetemplate"];
+	NSString * scriptureTemplatePath = [[NSBundle mainBundle] pathForResource:@"scripture" ofType:@"slidetemplate"];
+
+	if (style == ParkwaySlideStyle)
+	{
+		slideWidth = parkwaySlideWidth;
+		slideHeight = parkwaySlideHeight;
+		titleFontSize = parkwayTitleFontSize;
+		regularFontSize = parkwayRegularFontSize;
+
+		documentTemplatePath = [[NSBundle mainBundle] pathForResource:@"parkway_document" ofType:@"slidetemplate"];
+		titleTemplatePath = [[NSBundle mainBundle] pathForResource:@"parkway_title" ofType:@"slidetemplate"];
+		scriptureTemplatePath = [[NSBundle mainBundle] pathForResource:@"parkway_scripture" ofType:@"slidetemplate"];
+	}
+
     NSSavePanel * documentSavePanel = [NSSavePanel savePanel];
-    [documentSavePanel setAllowedFileTypes:@[@"pro5"]];
+    [documentSavePanel setAllowedFileTypes:@[@"pro5x"]];
     [documentSavePanel setAllowsOtherFileTypes:NO];
     [documentSavePanel setExtensionHidden:NO];
     NSInteger saveResult = [documentSavePanel runModal];
     if (saveResult == NSOKButton)
     {
         NSURL * resultingFileURL = [documentSavePanel URL];
-        
+		NSString * documentTitle = [[[resultingFileURL path] lastPathComponent] stringByDeletingPathExtension];
+
+		[[NSFileManager defaultManager] removeItemAtURL:resultingFileURL error:nil];
+
+		NSString * xmlDocumentPath = [[[resultingFileURL path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.pro5", documentTitle]];
+
+		NSString *theZippedFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"z_sermon_archive.zip"];
+		NSString * mediaDSStorePath = [[NSTemporaryDirectory() stringByAppendingPathComponent:@"media"] stringByAppendingPathComponent:@".DS_Store"];
+		[[NSFileManager defaultManager] createDirectoryAtPath:[mediaDSStorePath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
+		[@"" writeToFile:mediaDSStorePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+
+		ZipArchive * newZipFile = [[ZipArchive alloc] init];
+		[newZipFile CreateZipFile2:theZippedFilePath Password:@""];
+
+		[newZipFile addFileToZip:mediaDSStorePath newname:[documentTitle stringByAppendingPathComponent:@"media/.DS_Store"]];
+
         int slideIndex = 0;
         NSMutableArray * filePaths = [NSMutableArray array];
         NSMutableString * slideData = [NSMutableString string];
         for (NSDictionary * slide in slideArray)
         {
-            if ([[slide valueForKey:@"type"] isEqualToString:@"blank"])
+			NSMutableDictionary * replacements = [NSMutableDictionary dictionaryWithDictionary:@{@"document height":[NSString stringWithFormat:@"%ld", (long)slideHeight], @"document width":[NSString stringWithFormat:@"%ld", (long)slideWidth], @"uuid":[[NSUUID UUID] UUIDString], @"label":@"", @"index":[NSString stringWithFormat:@"%d", slideIndex]}];
+			NSString * template = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"blank_slide" ofType:@"slidetemplate"] encoding:NSUTF8StringEncoding error:nil];
+
+			if ([[slide valueForKey:@"type"] isEqualToString:@"title"])
             {
-                [slideData appendString:[self _outputForBlankSlideAtIndex:slideIndex]];
-            }
-            else if ([[slide valueForKey:@"type"] isEqualToString:@"title"])
-            {
-                [slideData appendString:[self _outputForSlideWithTitle:[slide valueForKey:@"text"] atIndex:slideIndex]];
+				NSMutableParagraphStyle * titleParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+				[titleParagraphStyle setAlignment:NSCenterTextAlignment];
+				NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"text"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:titleFontSize], NSParagraphStyleAttributeName:titleParagraphStyle}];
+
+				template = [NSString stringWithContentsOfFile:titleTemplatePath encoding:NSUTF8StringEncoding error:nil];
+				[replacements setObject:[self dataStringFromAttributedString:titleString] forKey:@"rtf data"];
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"point"])
             {
-                [slideData appendString:[self _outputForSlideWithPoint:[slide valueForKey:@"text"] atIndex:slideIndex]];
+				NSMutableParagraphStyle * titleParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+				[titleParagraphStyle setAlignment:NSCenterTextAlignment];
+				NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"text"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:titleParagraphStyle}];
+
+				template = [NSString stringWithContentsOfFile:titleTemplatePath encoding:NSUTF8StringEncoding error:nil];
+				[replacements setObject:[self dataStringFromAttributedString:titleString] forKey:@"rtf data"];
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"scripture"])
             {
-                [slideData appendString:[self _outputForScriptureSlidesWithBody:[slide valueForKey:@"text"] reference:[slide valueForKey:@"reference"] atIndex:slideIndex]];
+				NSMutableParagraphStyle * textParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+				[textParagraphStyle setAlignment:NSLeftTextAlignment];
+				NSAttributedString * textString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"text"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:textParagraphStyle}];
+
+				NSMutableParagraphStyle * referenceParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+				[referenceParagraphStyle setAlignment:NSRightTextAlignment];
+				NSAttributedString * referenceString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"reference"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Regular" size:regularFontSize], NSParagraphStyleAttributeName:referenceParagraphStyle}];
+
+				template = [NSString stringWithContentsOfFile:scriptureTemplatePath encoding:NSUTF8StringEncoding error:nil];
+				[replacements setObject:[self dataStringFromAttributedString:textString] forKey:@"body rtf data"];
+				[replacements setObject:[self dataStringFromAttributedString:referenceString] forKey:@"reference rtf data"];
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"media"])
             {
                 NSString * filePath = [slide valueForKey:@"path"];
+				NSURL * fileURL = [NSURL fileURLWithPath:filePath];
+				[newZipFile addFileToZip:filePath newname:[documentTitle stringByAppendingPathComponent:[@"media" stringByAppendingPathComponent:[fileURL path]]]];
                 [filePaths addObject:filePath];
-                [slideData appendString:[self _outputForMediaSlideAtPath:filePath atIndex:slideIndex]];
+
+				template = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"media_slide" ofType:@"slidetemplate"] encoding:NSUTF8StringEncoding error:nil];
+				[replacements setObject:[fileURL absoluteString] forKey:@"media source"];
+				[replacements setObject:[[filePath lastPathComponent] stringByDeletingPathExtension] forKey:@"media display name"];
+				[replacements setObject:[[NSUUID UUID] UUIDString] forKey:@"media uuid"];
             }
-            
+
+			NSString * slidePayload = [self _resultUpdatingTemplate:template withDictionary:replacements];
+			[slideData appendString:slidePayload];
+
             slideIndex++;
         }
-        
-        NSString * groupOutput = [self _outputTemplateForGroupAtIndex:0 contentString:slideData];
-        NSString * documentTest = [self _outputTemplateForWideWithTitle:[[[resultingFileURL absoluteString] lastPathComponent] stringByDeletingPathExtension] groupContent:groupOutput];
-        
+
+		NSDateFormatter * sRFC3339DateFormatter = [[NSDateFormatter alloc] init];
+		NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+
+		[sRFC3339DateFormatter setLocale:enUSPOSIXLocale];
+		[sRFC3339DateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
+		[sRFC3339DateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+
+		NSString * documentTemplate = [NSString stringWithContentsOfFile:documentTemplatePath encoding:NSUTF8StringEncoding error:nil];
+		
+		NSDictionary * replacements = @{@"document title":[[xmlDocumentPath lastPathComponent] stringByDeletingPathExtension], @"document height":[NSString stringWithFormat:@"%ld", (long)slideHeight], @"document width":[NSString stringWithFormat:@"%ld", (long)slideWidth], @"date":[sRFC3339DateFormatter stringFromDate:[NSDate date]], @"group uuid":[[NSUUID UUID] UUIDString], @"slides":slideData};
+		NSString * documentTest = [self _resultUpdatingTemplate:documentTemplate withDictionary:replacements];
+		//NSString * documentTest = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"slidetemplate"] encoding:NSUTF8StringEncoding error:nil];
+		
+		NSError * error = nil;
+		[documentTest writeToFile:xmlDocumentPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+		if (error)
+		{
+			[[NSAlert alertWithMessageText:@"Error while trying to save" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", [error localizedDescription]] runModal];
+		}
+
+		[newZipFile addFileToZip:xmlDocumentPath newname:[documentTitle stringByAppendingPathComponent:[xmlDocumentPath lastPathComponent]]];
+
+		[newZipFile CloseZipFile2];
+
+		[[NSFileManager defaultManager] removeItemAtPath:xmlDocumentPath error:nil];
+
         NSLog(@"test: %@", documentTest);
-        
-        NSError * error = nil;
-        [documentTest writeToURL:resultingFileURL atomically:YES encoding:NSUTF8StringEncoding error:&error];
-        if (error)
-        {
-            [[NSAlert alertWithMessageText:@"Error while trying to save" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", [error localizedDescription]] runModal];
-        }
+
+		[[NSFileManager defaultManager] moveItemAtURL:[NSURL fileURLWithPath:theZippedFilePath] toURL:resultingFileURL error:nil];
     }
 }
-
-- (NSString *)_outputTemplateForWideWithTitle:(NSString *)sermonTitle groupContent:(NSString *)groupContent
+/*
+- (NSString *)_outputTemplateForTitle:(NSString *)sermonTitle groupContent:(NSString *)groupContent
 {
 	return [NSString stringWithFormat:@"<RVPresentationDocument CCLIArtistCredits=\"\" CCLICopyrightInfo=\"\" CCLIDisplay=\"0\" CCLILicenseNumber=\"\" CCLIPublisher=\"\" CCLISongTitle=\"%@\" album=\"\" artist=\"\" author=\"\" backgroundColor=\"0 0 0 1\" category=\"Presentation\" chordChartPath=\"\" creatorCode=\"1349676880\" docType=\"0\" drawingBackgroundColor=\"0\" height=\"800\" lastDateUsed=\"2014-10-04T02:55:07\" notes=\"\" resourcesDirectory=\"\" usedCount=\"0\" versionNumber=\"500\" width=\"1280\"><timeline duration=\"0\" loop=\"0\" selectedMediaTrackIndex=\"0\" timeOffSet=\"0\" unitOfMeasure=\"60\"><timeCues containerClass=\"NSMutableArray\"/><mediaTracks containerClass=\"NSMutableArray\"/></timeline><bibleReference containerClass=\"NSMutableDictionary\"/><_-RVProTransitionObject-_transitionObject motionDuration=\"20\" motionEnabled=\"0\" motionSpeed=\"100\" transitionDuration=\"1\" transitionType=\"-1\"/><groups containerClass=\"NSMutableArray\">%@</groups><arrangements containerClass=\"NSMutableArray\"/></RVPresentationDocument>", sermonTitle, groupContent];
 }
@@ -144,7 +259,7 @@
 	NSString * cueUUID = [[NSUUID UUID] UUIDString];
 	return [NSString stringWithFormat:@"<RVDisplaySlide UUID=\"%@\" backgroundColor=\"0 0 0 1\" chordChartPath=\"\" drawingBackgroundColor=\"0\" enabled=\"1\" highlightColor=\"0 0 0 0\" hotKey=\"\" label=\"\" notes=\"\" serialization-array-index=\"%d\" slideType=\"1\" sort_index=\"%d\"><cues containerClass=\"NSMutableArray\"><RVMediaCue UUID=\"%@\" alignment=\"4\" behavior=\"2\" delayTime=\"0\" displayName=\"\" elementClassName=\"RVImageElement\" enabled=\"1\" parentUUID=\"%@\" serialization-array-index=\"0\" timeStamp=\"0\"><element bezelRadius=\"0\" blurRadius=\"0\" brightness=\"0\" colorFilter=\"1 0 0 1\" contrast=\"1\" displayDelay=\"0\" displayName=\"\" drawingFill=\"0\" drawingShadow=\"0\" drawingStroke=\"0\" edgeBlurArea=\"0\" edgeBlurRadius=\"0\" enableBlur=\"0\" enableColorFilter=\"0\" enableColorInvert=\"0\" enableEdgeBlur=\"0\" enableGrayInvert=\"0\" enableHeatSignature=\"0\" enableSepia=\"0\" fillColor=\"1 1 1 1\" flippedHorizontally=\"0\" flippedVertically=\"0\" format=\"JPEG image\" fromTemplate=\"0\" hue=\"0\" locked=\"0\" manufactureName=\"\" manufactureURL=\"\" persistent=\"0\" rotation=\"0\" saturation=\"1\" scaleBehavior=\"0\" scaleFactor=\"1\" serializedFilters=\"YnBsaXN0MDDUAQIDBAUIFhdUJHRvcFgkb2JqZWN0c1gkdmVyc2lvblkkYXJjaGl2ZXLRBgdUcm9vdIABowkKD1UkbnVsbNILDA0OViRjbGFzc1pOUy5vYmplY3RzgAKg0hAREhNYJGNsYXNzZXNaJGNsYXNzbmFtZaMTFBVeTlNNdXRhYmxlQXJyYXlXTlNBcnJheVhOU09iamVjdBIAAYagXxAPTlNLZXllZEFyY2hpdmVyCBEWHygyNTo8QEZLUl1fYGVueX2MlJ2iAAAAAAAAAQEAAAAAAAAAGAAAAAAAAAAAAAAAAAAAALQ=\" serializedImageOffset=\"0.000000@0.000000\" source=\"%@\" typeID=\"0\"><_-RVRect3D-_position height=\"800\" width=\"1280\" x=\"0\" y=\"0\" z=\"0\"/><_-D-_serializedShadow containerClass=\"NSMutableDictionary\"><NSMutableString serialization-dictionary-key=\"shadowOffset\" serialization-native-value=\"{5, -5}\"/><NSNumber serialization-dictionary-key=\"shadowBlurRadius\" serialization-native-value=\"0\"/><NSColor serialization-dictionary-key=\"shadowColor\" serialization-native-value=\"0 0 0 0.3333333432674408\"/></_-D-_serializedShadow><stroke containerClass=\"NSMutableDictionary\"><NSColor serialization-dictionary-key=\"RVShapeElementStrokeColorKey\" serialization-native-value=\"0 0 0 1\"/><NSNumber serialization-dictionary-key=\"RVShapeElementStrokeWidthKey\" serialization-native-value=\"1\"/></stroke></element><_-RVProTransitionObject-_transitionObject/></RVMediaCue></cues><displayElements containerClass=\"NSMutableArray\"/><_-RVProTransitionObject-_transitionObject motionDuration=\"20\" motionEnabled=\"0\" motionSpeed=\"100\" transitionDuration=\"1\" transitionType=\"-1\"/></RVDisplaySlide>", slideUUID, slideIndex, slideIndex, cueUUID, slideUUID, mediaPath];
 }
-
+*/
 #pragma mark - Core Data stack
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;

@@ -1,0 +1,30 @@
+<RVDisplaySlide UUID="{uuid}" backgroundColor="0 0 0 1" chordChartPath="" drawingBackgroundColor="0" enabled="1" highlightColor="0 0 0 0" hotKey="" label="{label}" notes="" serialization-array-index="{index}" slideType="1" sort_index="{index}">
+					<cues containerClass="NSMutableArray"/>
+					<displayElements containerClass="NSMutableArray">
+						<RVTextElement RTFData="{body rtf data}" adjustsHeightToFit="0" bezelRadius="0" displayDelay="0" displayName="" drawingFill="0" drawingShadow="1" drawingStroke="0" fillColor="0 0 0 0" fromTemplate="0" locked="0" persistent="0" revealType="0" rotation="0" serialization-array-index="0" source="" typeID="0" verticalAlignment="1">
+							<_-RVRect3D-_position height="433.1012" width="859.9138" x="82.04311" y="20.40002" z="0"/>
+							<_-D-_serializedShadow containerClass="NSMutableDictionary">
+								<NSMutableString serialization-dictionary-key="shadowOffset" serialization-native-value="{1.4142135, -1.4142135}"/>
+								<NSNumber serialization-dictionary-key="shadowBlurRadius" serialization-native-value="2"/>
+								<NSColor serialization-dictionary-key="shadowColor" serialization-native-value="0 0 0 0.3333333432674408"/>
+							</_-D-_serializedShadow>
+							<stroke containerClass="NSMutableDictionary">
+								<NSColor serialization-dictionary-key="RVShapeElementStrokeColorKey" serialization-native-value="0 0 0 1"/>
+								<NSNumber serialization-dictionary-key="RVShapeElementStrokeWidthKey" serialization-native-value="1"/>
+							</stroke>
+						</RVTextElement>
+						<RVTextElement RTFData="{reference rtf data}" adjustsHeightToFit="0" bezelRadius="0" displayDelay="0" displayName="" drawingFill="0" drawingShadow="1" drawingStroke="0" fillColor="1 1 1 1" fromTemplate="0" locked="0" persistent="0" revealType="0" rotation="0" serialization-array-index="1" source="" typeID="0" verticalAlignment="0">
+							<_-RVRect3D-_position height="118.7719" width="903.3963" x="60.30185" y="377.4744" z="0"/>
+							<_-D-_serializedShadow containerClass="NSMutableDictionary">
+								<NSMutableString serialization-dictionary-key="shadowOffset" serialization-native-value="{1.4142135, -1.4142135}"/>
+								<NSNumber serialization-dictionary-key="shadowBlurRadius" serialization-native-value="2"/>
+								<NSColor serialization-dictionary-key="shadowColor" serialization-native-value="0 0 0 0.3333333432674408"/>
+							</_-D-_serializedShadow>
+							<stroke containerClass="NSMutableDictionary">
+								<NSColor serialization-dictionary-key="RVShapeElementStrokeColorKey" serialization-native-value="0 0 0 1"/>
+								<NSNumber serialization-dictionary-key="RVShapeElementStrokeWidthKey" serialization-native-value="1"/>
+							</stroke>
+						</RVTextElement>
+					</displayElements>
+					<_-RVProTransitionObject-_transitionObject motionDuration="20" motionEnabled="0" motionSpeed="100" transitionDuration="1" transitionType="-1"/>
+				</RVDisplaySlide>
