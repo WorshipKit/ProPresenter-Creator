@@ -13,6 +13,11 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
+                <outlet property="documentController" destination="hOR-vb-057" id="CpS-um-dpv"/>
+                <outlet property="nameField" destination="uvc-bs-bXV" id="bWG-0Z-Jgk"/>
+                <outlet property="saveSettingMatrix" destination="xS4-1V-5Lf" id="kni-bY-474"/>
+                <outlet property="saveView" destination="FDZ-FK-mjZ" id="mYN-wF-z9H"/>
+                <outlet property="slidesTableView" destination="Cy2-2X-YwO" id="zsa-bd-84n"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -668,8 +673,9 @@
         <window title="ProPresenter Creator" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="771" height="643"/>
+            <rect key="contentRect" x="118" y="659" width="771" height="643"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <value key="minSize" type="size" width="771" height="643"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="771" height="643"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -678,12 +684,16 @@
                         <rect key="frame" x="20" y="601" width="731" height="22"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="wpg-Lh-LRe"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="xOa-WV-fOD"/>
                         </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="Sermon Oct 11 &amp; 12" drawsBackground="YES" id="bKi-b8-AGJ">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="October 11 &amp; 12, 2014" drawsBackground="YES" id="bKi-b8-AGJ">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="hOR-vb-057" name="value" keyPath="selection.name" id="R91-HG-hXb"/>
+                        </connections>
                     </textField>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P6V-4X-mdH">
                         <rect key="frame" x="-1" y="62" width="309" height="531"/>
@@ -766,6 +776,9 @@
                             </subviews>
                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="309" id="N7E-FS-J2i"/>
+                        </constraints>
                         <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="z2x-Va-VUP">
                             <rect key="frame" x="1" y="119" width="223" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -781,6 +794,10 @@
                     </scrollView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WO5-30-6Pw">
                         <rect key="frame" x="14" y="14" width="111" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="FyM-4B-3Ph"/>
+                            <constraint firstAttribute="width" constant="99" id="mFR-7i-iB5"/>
+                        </constraints>
                         <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="tOJ-Ld-GJG">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -789,7 +806,9 @@
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s5m-ur-2bZ">
                         <rect key="frame" x="135" y="14" width="111" height="32"/>
                         <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="99" id="4zu-Y2-jOA"/>
                             <constraint firstAttribute="width" constant="99" id="6Ws-vx-SjB"/>
+                            <constraint firstAttribute="height" constant="21" id="iCR-fE-LrY"/>
                         </constraints>
                         <buttonCell key="cell" type="push" title="Remove" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="l19-fZ-qaU">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -798,21 +817,65 @@
                     </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="s5m-ur-2bZ" firstAttribute="top" secondItem="P6V-4X-mdH" secondAttribute="bottom" constant="20" id="2zR-MA-TFO"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="uvc-bs-bXV" secondAttribute="trailing" constant="20" id="4q6-4c-L31"/>
+                    <constraint firstAttribute="bottom" secondItem="s5m-ur-2bZ" secondAttribute="bottom" constant="21" id="5If-7s-MqO"/>
+                    <constraint firstItem="uvc-bs-bXV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="6Lp-Tp-GyC"/>
                     <constraint firstItem="uvc-bs-bXV" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="9kp-nf-ef1"/>
                     <constraint firstItem="uvc-bs-bXV" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="C0X-UA-7Ku"/>
+                    <constraint firstItem="P6V-4X-mdH" firstAttribute="top" secondItem="uvc-bs-bXV" secondAttribute="bottom" constant="8" id="I4B-lz-8dg"/>
+                    <constraint firstItem="uvc-bs-bXV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="N0n-Jf-OcH"/>
                     <constraint firstItem="WO5-30-6Pw" firstAttribute="leading" secondItem="uvc-bs-bXV" secondAttribute="leading" id="Ndh-Hb-bGj"/>
                     <constraint firstAttribute="trailing" secondItem="uvc-bs-bXV" secondAttribute="trailing" constant="20" id="Q06-FO-EK3"/>
+                    <constraint firstItem="P6V-4X-mdH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="-1" id="Rjp-Ow-mho"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="141" id="Wtg-Fo-97U"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="top" secondItem="P6V-4X-mdH" secondAttribute="bottom" constant="20" symbolic="YES" id="XZ3-Uu-BYu"/>
                     <constraint firstItem="P6V-4X-mdH" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="-1" id="Y85-Bx-3ys"/>
+                    <constraint firstItem="WO5-30-6Pw" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="a6e-hM-DNY"/>
                     <constraint firstItem="WO5-30-6Pw" firstAttribute="baseline" secondItem="s5m-ur-2bZ" secondAttribute="baseline" id="cFK-oE-fD4"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="leading" secondItem="WO5-30-6Pw" secondAttribute="trailing" constant="22" id="gZ5-tV-crH"/>
+                    <constraint firstAttribute="bottom" secondItem="WO5-30-6Pw" secondAttribute="bottom" constant="21" id="hOn-Mc-ACa"/>
                     <constraint firstAttribute="trailing" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="463" id="noK-r1-i9B"/>
                     <constraint firstAttribute="bottom" secondItem="P6V-4X-mdH" secondAttribute="bottom" constant="62" id="siM-dC-w0S"/>
                     <constraint firstItem="P6V-4X-mdH" firstAttribute="top" secondItem="uvc-bs-bXV" secondAttribute="bottom" constant="8" symbolic="YES" id="uhb-ra-El6"/>
+                    <constraint firstItem="s5m-ur-2bZ" firstAttribute="leading" secondItem="WO5-30-6Pw" secondAttribute="trailing" constant="22" id="wGF-Pf-AyS"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="609.5" y="291.5"/>
         </window>
+        <customView id="FDZ-FK-mjZ">
+            <rect key="frame" x="0.0" y="0.0" width="304" height="77"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xS4-1V-5Lf">
+                    <rect key="frame" x="20" y="19" width="264" height="38"/>
+                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <size key="cellSize" width="122" height="18"/>
+                    <size key="intercellSpacing" width="4" height="2"/>
+                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="nRp-ao-EHI">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <cells>
+                        <column>
+                            <buttonCell type="radio" title="Knoxville &amp; East" imagePosition="left" alignment="left" state="on" tag="1" inset="2" id="fnM-Yb-LuD">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <buttonCell type="radio" title="Parkway" imagePosition="left" alignment="left" inset="2" id="kAh-ZQ-pmD">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </column>
+                    </cells>
+                </matrix>
+            </subviews>
+            <point key="canvasLocation" x="549" y="767.5"/>
+        </customView>
+        <objectController mode="entity" entityName="Document" automaticallyPreparesContent="YES" id="hOR-vb-057">
+            <connections>
+                <binding destination="Voe-Tx-rLC" name="managedObjectContext" keyPath="managedObjectContext" id="Ry3-AY-v22"/>
+            </connections>
+        </objectController>
     </objects>
 </document>
