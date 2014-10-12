@@ -36,21 +36,14 @@ typedef enum {
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-//	NSString * rtfTestData = @"e1xydGYxXGFuc2lcYW5zaWNwZzEyNTJcY29jb2FydGYxMzI4XGNvY29hc3VicnRmMTEwClxjb2NvYXNjcmVlbmZvbnRzMXtcZm9udHRibFxmMFxmbmlsXGZjaGFyc2V0MCBNeXJpYWRQcm8tUmVndWxhcjt9CntcY29sb3J0Ymw7XHJlZDI1NVxncmVlbjI1NVxibHVlMjU1O30KXHBhcmRcdHg1NjBcdHgxMTIwXHR4MTY4MFx0eDIyNDBcdHgyODAwXHR4MzM2MFx0eDM5MjBcdHg0NDgwXHR4NTA0MFx0eDU2MDBcdHg2MTYwXHR4NjcyMFxwYXJkaXJuYXR1cmFsXHFjCgpcZjBcYlxmczExOCBcY2YxIFRyYW5zY2VuZGVuY2VcCgpcYjAgV2h5IGlzIEdvZCBzbyBkaXN0YW50P30=";
-//	NSData * data = [[NSData alloc] initWithBase64EncodedString:rtfTestData options:0];
-//	NSAttributedString * attributedString = [[NSAttributedString alloc] initWithData:data options:@{NSDocumentTypeDocumentOption:NSRTFTextDocumentType} documentAttributes:NULL error:nil];
-//	NSLog(@"document: %@", [attributedString string]);
-
     NSMutableArray * slideArray = [NSMutableArray array];
     [slideArray addObject:@{@"type":@"blank"}];
 	[slideArray addObject:@{@"type":@"media", @"path":@"/Users/jterhorst/Dropbox/Sermon slide pro5 files/generous-life-widescreen.png"}];
 	[slideArray addObject:@{@"type":@"title", @"text":@"Shake it off"}];
 	[slideArray addObject:@{@"type":@"point", @"text":@"Haters gonna hate hate hate hate"}];
-//	NSAttributedString * scriptureString = [[NSAttributedString alloc] initWithString:@"Testing scripture text body." attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont boldSystemFontOfSize:45]}];
-//	NSAttributedString * referenceString = [[NSAttributedString alloc] initWithString:@"Scripture 3:16 (NIV)" attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont systemFontOfSize:45]}];
-	[slideArray addObject:@{@"type":@"scripture", @"text":@"Testing scripture text body", @"reference":@"Scripture 3:16 (NIV)"}];
-//    
-    [self _saveSlidesFromArray:slideArray inStyle:ParkwaySlideStyle];
+	[slideArray addObject:@{@"type":@"scripture", @"text":@"In the year that King Uzziah died, I saw the Lord, high and exalted, seated on a throne; and the train of his robe filled the temple. Above him were seraphim, each with six wings: With two wings they covered their faces, with two they covered their feet, and with two they were flying. And they were calling to one another: “Holy, holy, holy is the Lord Almighty; the whole earth is full of his glory.” At the sound of their voices the doorposts and thresholds shook and the temple was filled with smoke.", @"reference":@"Isaiah 6:1-4 (NIV)"}];
+
+	[self _saveSlidesFromArray:slideArray inStyle:KnoxvilleSlideStyle];
 }
 
 - (NSString *)dataStringFromAttributedString:(NSAttributedString *)string
@@ -143,6 +136,11 @@ typedef enum {
 
 				template = [NSString stringWithContentsOfFile:titleTemplatePath encoding:NSUTF8StringEncoding error:nil];
 				[replacements setObject:[self dataStringFromAttributedString:titleString] forKey:@"rtf data"];
+
+				NSString * slidePayload = [self _resultUpdatingTemplate:template withDictionary:replacements];
+				[slideData appendString:slidePayload];
+
+				slideIndex++;
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"point"])
             {
@@ -152,20 +150,59 @@ typedef enum {
 
 				template = [NSString stringWithContentsOfFile:titleTemplatePath encoding:NSUTF8StringEncoding error:nil];
 				[replacements setObject:[self dataStringFromAttributedString:titleString] forKey:@"rtf data"];
+
+				NSString * slidePayload = [self _resultUpdatingTemplate:template withDictionary:replacements];
+				[slideData appendString:slidePayload];
+
+				slideIndex++;
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"scripture"])
             {
-				NSMutableParagraphStyle * textParagraphStyle = [[NSMutableParagraphStyle alloc] init];
-				[textParagraphStyle setAlignment:NSLeftTextAlignment];
-				NSAttributedString * textString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"text"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:textParagraphStyle}];
+				NSMutableArray * slideSentences = [NSMutableArray arrayWithArray:[[slide valueForKey:@"text"] componentsSeparatedByString:@". "]];
+				NSInteger easyCharacterLimit = 200;
+				NSInteger overflowCharacterLimit = 250;
+				NSMutableArray * slideTextResults = [NSMutableArray array];
 
-				NSMutableParagraphStyle * referenceParagraphStyle = [[NSMutableParagraphStyle alloc] init];
-				[referenceParagraphStyle setAlignment:NSRightTextAlignment];
-				NSAttributedString * referenceString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"reference"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Regular" size:regularFontSize], NSParagraphStyleAttributeName:referenceParagraphStyle}];
+				while ([slideSentences count] > 0) {
+					NSMutableString * textData = [NSMutableString string];
+					while ([textData length] < easyCharacterLimit && [slideSentences firstObject]) {
+						[textData appendString:[slideSentences firstObject]];
+						[slideSentences removeObjectAtIndex:0];
+					}
+					if ([slideSentences firstObject] && [[textData stringByAppendingString:[slideSentences firstObject]] length] <= overflowCharacterLimit)
+					{
+						[textData appendString:[slideSentences firstObject]];
+						[slideSentences removeObjectAtIndex:0];
+					}
 
-				template = [NSString stringWithContentsOfFile:scriptureTemplatePath encoding:NSUTF8StringEncoding error:nil];
-				[replacements setObject:[self dataStringFromAttributedString:textString] forKey:@"body rtf data"];
-				[replacements setObject:[self dataStringFromAttributedString:referenceString] forKey:@"reference rtf data"];
+					if ([textData length] > 0)
+					{
+						//NSLog(@"adding: %@", textData);
+						[slideTextResults addObject:textData];
+					}
+				}
+
+				for (NSString * slideText in slideTextResults)
+				{
+					NSLog(@"slide: %d, formatting: %@", slideIndex, slideText);
+					NSMutableParagraphStyle * textParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+					[textParagraphStyle setAlignment:NSLeftTextAlignment];
+					NSAttributedString * textString = [[NSAttributedString alloc] initWithString:slideText attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:textParagraphStyle}];
+
+					NSMutableParagraphStyle * referenceParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+					[referenceParagraphStyle setAlignment:NSRightTextAlignment];
+					NSAttributedString * referenceString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"reference"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Regular" size:regularFontSize], NSParagraphStyleAttributeName:referenceParagraphStyle}];
+
+					template = [NSString stringWithContentsOfFile:scriptureTemplatePath encoding:NSUTF8StringEncoding error:nil];
+					[replacements setObject:[self dataStringFromAttributedString:textString] forKey:@"body rtf data"];
+					[replacements setObject:[self dataStringFromAttributedString:referenceString] forKey:@"reference rtf data"];
+					[replacements setObject:[NSString stringWithFormat:@"%d", slideIndex] forKey:@"index"];
+
+					NSString * slidePayload = [self _resultUpdatingTemplate:template withDictionary:replacements];
+					[slideData appendString:slidePayload];
+
+					slideIndex++;
+				}
             }
             else if ([[slide valueForKey:@"type"] isEqualToString:@"media"])
             {
@@ -178,12 +215,12 @@ typedef enum {
 				[replacements setObject:[fileURL absoluteString] forKey:@"media source"];
 				[replacements setObject:[[filePath lastPathComponent] stringByDeletingPathExtension] forKey:@"media display name"];
 				[replacements setObject:[[NSUUID UUID] UUIDString] forKey:@"media uuid"];
+
+				NSString * slidePayload = [self _resultUpdatingTemplate:template withDictionary:replacements];
+				[slideData appendString:slidePayload];
+
+				slideIndex++;
             }
-
-			NSString * slidePayload = [self _resultUpdatingTemplate:template withDictionary:replacements];
-			[slideData appendString:slidePayload];
-
-            slideIndex++;
         }
 
 		NSDateFormatter * sRFC3339DateFormatter = [[NSDateFormatter alloc] init];
@@ -212,7 +249,7 @@ typedef enum {
 
 		[[NSFileManager defaultManager] removeItemAtPath:xmlDocumentPath error:nil];
 
-        NSLog(@"test: %@", documentTest);
+		//NSLog(@"test: %@", documentTest);
 
 		[[NSFileManager defaultManager] moveItemAtURL:[NSURL fileURLWithPath:theZippedFilePath] toURL:resultingFileURL error:nil];
     }
