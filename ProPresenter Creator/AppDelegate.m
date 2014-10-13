@@ -35,8 +35,12 @@ typedef enum {
 @property (weak) IBOutlet NSTableView * slidesTableView;
 
 @property (weak) IBOutlet NSObjectController * documentController;
+@property (weak) IBOutlet NSArrayController * slidesController;
 
 - (IBAction)saveAction:(id)sender;
+
+- (IBAction)addSlide:(id)sender;
+- (IBAction)removeSlide:(id)sender;
 
 @end
 
@@ -56,6 +60,8 @@ typedef enum {
 	{
 		[_documentController add:nil];
 	}
+
+	[_slidesController setSortDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]]];
 }
 
 - (NSString *)dataStringFromAttributedString:(NSAttributedString *)string
@@ -281,6 +287,16 @@ typedef enum {
 	[[NSFileManager defaultManager] moveItemAtURL:[NSURL fileURLWithPath:theZippedFilePath] toURL:resultingFileURL error:nil];
 }
 
+- (IBAction)addSlide:(id)sender;
+{
+	[_slidesController add:nil];
+}
+
+- (IBAction)removeSlide:(id)sender;
+{
+	[_slidesController remove:nil];
+}
+
 #pragma mark - Core Data stack
 
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
@@ -379,8 +395,6 @@ typedef enum {
     if ([[self managedObjectContext] hasChanges] && ![[self managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
-
-
 }
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
