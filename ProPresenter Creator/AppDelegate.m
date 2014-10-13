@@ -42,6 +42,8 @@ typedef enum {
 - (IBAction)addSlide:(id)sender;
 - (IBAction)removeSlide:(id)sender;
 
+- (IBAction)selectMediaFile:(id)sender;
+
 @end
 
 @implementation AppDelegate
@@ -97,11 +99,20 @@ typedef enum {
 	if (saveResult == NSOKButton)
 	{
 		NSMutableArray * slideArray = [NSMutableArray array];
-		[slideArray addObject:@{@"type":@"blank"}];
-		[slideArray addObject:@{@"type":@"media", @"path":@"/Users/jterhorst/Dropbox/Sermon slide pro5 files/generous-life-widescreen.png"}];
-		[slideArray addObject:@{@"type":@"title", @"text":@"Shake it off"}];
-		[slideArray addObject:@{@"type":@"point", @"text":@"Haters gonna hate hate hate hate"}];
-		[slideArray addObject:@{@"type":@"scripture", @"text":@"In the year that King Uzziah died, I saw the Lord, high and exalted, seated on a throne; and the train of his robe filled the temple. Above him were seraphim, each with six wings: With two wings they covered their faces, with two they covered their feet, and with two they were flying. And they were calling to one another: “Holy, holy, holy is the Lord Almighty; the whole earth is full of his glory.” At the sound of their voices the doorposts and thresholds shook and the temple was filled with smoke.", @"reference":@"Isaiah 6:1-4 (NIV)"}];
+		
+		for (NSManagedObject * object in [_slidesController arrangedObjects])
+		{
+			NSMutableDictionary * slideDict = [NSMutableDictionary dictionary];
+			if ([object valueForKey:@"type"])
+				[slideDict setObject:[[object valueForKey:@"type"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@"type"];
+			if ([object valueForKey:@"text"])
+				[slideDict setObject:[[object valueForKey:@"text"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@"text"];
+			if ([object valueForKey:@"mediaPath"])
+				[slideDict setObject:[[object valueForKey:@"mediaPath"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@"path"];
+			if ([object valueForKey:@"reference"])
+				[slideDict setObject:[[object valueForKey:@"reference"] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@"reference"];
+			[slideArray addObject:slideDict];
+		}
 
 		SlideStyle style = KnoxvilleSlideStyle;
 		if (_saveSettingMatrix.selectedRow == 1)
@@ -254,6 +265,13 @@ typedef enum {
 
 			slideIndex++;
 		}
+		else if ([[slide valueForKey:@"type"] isEqualToString:@"blank"])
+		{
+			NSString * slidePayload = [self _resultUpdatingTemplate:template withDictionary:replacements];
+			[slideData appendString:slidePayload];
+
+			slideIndex++;
+		}
 	}
 
 	NSDateFormatter * sRFC3339DateFormatter = [[NSDateFormatter alloc] init];
@@ -289,7 +307,22 @@ typedef enum {
 
 - (IBAction)addSlide:(id)sender;
 {
-	[_slidesController add:nil];
+	NSManagedObject * newSlide = [NSEntityDescription insertNewObjectForEntityForName:@"Slide" inManagedObjectContext:[self managedObjectContext]];
+	[newSlide setPrimitiveValue:@([[_slidesController arrangedObjects] count]) forKey:@"index"];
+}
+
+- (IBAction)selectMediaFile:(id)sender
+{
+	NSOpenPanel * openPanel = [NSOpenPanel openPanel];
+	[openPanel setAllowsMultipleSelection:NO];
+
+	NSInteger openResult = [openPanel runModal];
+	if (openResult == NSOKButton)
+	{
+		NSString * filePath = [[[openPanel URLs] firstObject] path];
+		NSManagedObject * object = [[_slidesController selectedObjects] firstObject];
+		[object setValue:filePath forKey:@"mediaPath"];
+	}
 }
 
 - (IBAction)removeSlide:(id)sender;

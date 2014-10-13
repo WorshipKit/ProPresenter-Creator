@@ -853,27 +853,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Clq-CW-b8X">
-                        <rect key="frame" x="316" y="404" width="435" height="22"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="22" id="2RD-g0-esC"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="aJJ-FY-Ybl"/>
-                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="cro-Vm-QYZ"/>
-                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="v0V-kH-pw2"/>
-                        </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="xMD-nw-svI">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                        <connections>
-                            <binding destination="RVX-9K-aDE" name="value" keyPath="selection.mediaPath" id="FE0-C4-aWp">
-                                <dictionary key="options">
-                                    <string key="NSNullPlaceholder">File path for media</string>
-                                </dictionary>
-                            </binding>
-                        </connections>
-                    </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7cB-Bx-YVt">
                         <rect key="frame" x="314" y="434" width="439" height="17"/>
                         <constraints>
@@ -944,61 +923,135 @@
                             <binding destination="RVX-9K-aDE" name="selectedValue" keyPath="selection.type" id="lNw-7z-Mm4"/>
                         </connections>
                     </popUpButton>
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zat-wK-fY7">
+                        <rect key="frame" x="318" y="159" width="435" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="0rc-GH-5zE"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="1HL-i8-QIp"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="dEj-Qo-f8r"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="e9f-8v-uFI"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="ijB-Sa-mmP"/>
+                            <constraint firstAttribute="height" constant="22" id="wGD-OY-LwM"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="lpi-Km-fgI">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="RVX-9K-aDE" name="value" keyPath="selection.reference" id="ZQt-Af-IEY">
+                                <dictionary key="options">
+                                    <string key="NSNullPlaceholder">John 3:16 (NIV)</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cot-e6-K9h">
+                        <rect key="frame" x="316" y="189" width="439" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="3TT-o1-Joe"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="17" id="7du-a0-PkR"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="17" id="Ghq-Ne-rov"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="17" id="oBc-wh-6E0"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="17" id="tUe-Rn-99g"/>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="17" id="yzC-ig-I7h"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Scripture ref" id="74Y-82-VrX">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4zt-15-nPe">
+                        <rect key="frame" x="316" y="409" width="317" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="fod-6C-jRj"/>
+                        </constraints>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="media path" id="N60-QQ-ttu">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <binding destination="RVX-9K-aDE" name="value" keyPath="selection.mediaPath" id="Fum-q4-VtB">
+                                <dictionary key="options">
+                                    <string key="NSNullPlaceholder">Nothing set</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N0E-HB-7nb">
+                        <rect key="frame" x="638" y="400" width="119" height="32"/>
+                        <buttonCell key="cell" type="push" title="Choose..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="z4j-Tk-8Nb">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="selectMediaFile:" target="Voe-Tx-rLC" id="A2q-hY-1hL"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="vfE-3e-6oE" firstAttribute="top" secondItem="42F-ek-9qq" secondAttribute="bottom" constant="8" id="0pp-6y-XUb"/>
                     <constraint firstItem="42F-ek-9qq" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="1ih-vI-pfS"/>
+                    <constraint firstItem="4zt-15-nPe" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="10" id="1rb-ow-e1h"/>
                     <constraint firstAttribute="trailing" secondItem="320-d9-4kd" secondAttribute="trailing" constant="20" id="2Dq-bc-nxD"/>
                     <constraint firstItem="7cB-Bx-YVt" firstAttribute="top" secondItem="nbC-H8-ttP" secondAttribute="bottom" constant="9" id="2Je-5P-CQ2"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="top" secondItem="P6V-4X-mdH" secondAttribute="bottom" constant="20" id="2zR-MA-TFO"/>
                     <constraint firstAttribute="trailing" secondItem="42F-ek-9qq" secondAttribute="trailing" constant="20" id="4un-jG-Hxk"/>
                     <constraint firstAttribute="bottom" secondItem="s5m-ur-2bZ" secondAttribute="bottom" constant="21" id="5If-7s-MqO"/>
-                    <constraint firstItem="9aF-QW-vOg" firstAttribute="top" secondItem="Clq-CW-b8X" secondAttribute="bottom" constant="8" id="5cz-KH-v1W"/>
-                    <constraint firstItem="Clq-CW-b8X" firstAttribute="top" secondItem="7cB-Bx-YVt" secondAttribute="bottom" constant="8" id="9Af-ue-RFU"/>
-                    <constraint firstItem="Clq-CW-b8X" firstAttribute="top" secondItem="7cB-Bx-YVt" secondAttribute="bottom" constant="8" id="AE0-vo-hoX"/>
-                    <constraint firstItem="Clq-CW-b8X" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="BBU-ek-0wH"/>
+                    <constraint firstAttribute="trailing" secondItem="4zt-15-nPe" secondAttribute="trailing" constant="140" id="7BW-kk-2Bv"/>
                     <constraint firstItem="P6V-4X-mdH" firstAttribute="leading" relation="lessThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="-1" id="Bai-hz-cCp"/>
                     <constraint firstAttribute="trailing" secondItem="nbC-H8-ttP" secondAttribute="trailing" constant="20" id="BfR-am-TsG"/>
                     <constraint firstItem="320-d9-4kd" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="DHo-RC-emy"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Clq-CW-b8X" secondAttribute="trailing" constant="20" id="DOx-NB-65V"/>
                     <constraint firstAttribute="trailing" secondItem="7cB-Bx-YVt" secondAttribute="trailing" constant="20" id="EBH-dM-P2F"/>
+                    <constraint firstItem="zat-wK-fY7" firstAttribute="top" secondItem="cot-e6-K9h" secondAttribute="bottom" constant="8" id="FdB-QZ-LzD"/>
+                    <constraint firstItem="zat-wK-fY7" firstAttribute="top" secondItem="cot-e6-K9h" secondAttribute="bottom" constant="8" id="GHK-6l-gUu"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7cB-Bx-YVt" secondAttribute="trailing" constant="20" id="Gap-ne-38I"/>
                     <constraint firstItem="9aF-QW-vOg" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="10" id="GuZ-Kl-r26"/>
-                    <constraint firstItem="Clq-CW-b8X" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="Hf4-6s-M0e"/>
-                    <constraint firstAttribute="trailing" secondItem="Clq-CW-b8X" secondAttribute="trailing" constant="20" id="HhM-b2-VTZ"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="zat-wK-fY7" secondAttribute="trailing" constant="18" id="H9y-hP-ixZ"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="top" secondItem="P6V-4X-mdH" secondAttribute="bottom" constant="20" id="KFP-jj-Jzh"/>
                     <constraint firstItem="7cB-Bx-YVt" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="KRN-Y7-v1z"/>
                     <constraint firstAttribute="trailing" secondItem="9aF-QW-vOg" secondAttribute="trailing" constant="20" id="KtF-yl-cm6"/>
                     <constraint firstItem="kMu-Oj-Pk2" firstAttribute="top" secondItem="9aF-QW-vOg" secondAttribute="bottom" constant="8" symbolic="YES" id="Oyz-nt-vpJ"/>
+                    <constraint firstItem="zat-wK-fY7" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="10" id="RM1-jT-dTb"/>
                     <constraint firstItem="P6V-4X-mdH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="-1" id="Rjp-Ow-mho"/>
                     <constraint firstItem="320-d9-4kd" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="82" id="STN-wZ-PLz"/>
-                    <constraint firstItem="Clq-CW-b8X" firstAttribute="trailing" secondItem="kMu-Oj-Pk2" secondAttribute="trailing" id="TcK-zn-Ufb"/>
                     <constraint firstItem="42F-ek-9qq" firstAttribute="top" secondItem="320-d9-4kd" secondAttribute="bottom" constant="8" id="Uny-qI-rs2"/>
                     <constraint firstItem="nbC-H8-ttP" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="VR5-LL-kYY"/>
-                    <constraint firstItem="Clq-CW-b8X" firstAttribute="top" secondItem="7cB-Bx-YVt" secondAttribute="bottom" constant="8" id="WAI-30-APJ"/>
+                    <constraint firstItem="zat-wK-fY7" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="10" id="VcW-hi-GBg"/>
+                    <constraint firstItem="cot-e6-K9h" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="10" id="Wf7-Cd-R7Y"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="141" id="Wtg-Fo-97U"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="top" secondItem="P6V-4X-mdH" secondAttribute="bottom" constant="20" symbolic="YES" id="XZ3-Uu-BYu"/>
+                    <constraint firstItem="zat-wK-fY7" firstAttribute="top" secondItem="cot-e6-K9h" secondAttribute="bottom" constant="8" id="Xu7-ps-1vv"/>
                     <constraint firstItem="P6V-4X-mdH" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="-1" id="Y85-Bx-3ys"/>
+                    <constraint firstItem="9aF-QW-vOg" firstAttribute="top" secondItem="4zt-15-nPe" secondAttribute="bottom" constant="13" id="Y85-sf-L2u"/>
                     <constraint firstItem="kMu-Oj-Pk2" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="YJk-qE-vmU"/>
-                    <constraint firstItem="9aF-QW-vOg" firstAttribute="top" secondItem="Clq-CW-b8X" secondAttribute="bottom" constant="8" symbolic="YES" id="YZz-f7-6HF"/>
+                    <constraint firstItem="cot-e6-K9h" firstAttribute="top" secondItem="kMu-Oj-Pk2" secondAttribute="bottom" constant="8" id="Z26-NH-0A3"/>
                     <constraint firstItem="WO5-30-6Pw" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="a6e-hM-DNY"/>
                     <constraint firstItem="7cB-Bx-YVt" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="c9w-RW-6b6"/>
                     <constraint firstItem="WO5-30-6Pw" firstAttribute="baseline" secondItem="s5m-ur-2bZ" secondAttribute="baseline" id="cFK-oE-fD4"/>
                     <constraint firstAttribute="trailing" secondItem="vfE-3e-6oE" secondAttribute="trailing" constant="20" id="eGm-Yh-nRG"/>
-                    <constraint firstItem="9aF-QW-vOg" firstAttribute="trailing" secondItem="Clq-CW-b8X" secondAttribute="trailing" id="fiA-3K-g2R"/>
+                    <constraint firstItem="4zt-15-nPe" firstAttribute="top" secondItem="7cB-Bx-YVt" secondAttribute="bottom" constant="8" id="fRx-DY-rkQ"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="leading" secondItem="WO5-30-6Pw" secondAttribute="trailing" constant="22" id="gZ5-tV-crH"/>
                     <constraint firstAttribute="bottom" secondItem="WO5-30-6Pw" secondAttribute="bottom" constant="21" id="hOn-Mc-ACa"/>
+                    <constraint firstItem="cot-e6-K9h" firstAttribute="top" secondItem="kMu-Oj-Pk2" secondAttribute="bottom" constant="8" id="itT-jI-GT2"/>
+                    <constraint firstItem="zat-wK-fY7" firstAttribute="top" secondItem="cot-e6-K9h" secondAttribute="bottom" constant="8" id="jrw-Vv-eWr"/>
+                    <constraint firstItem="zat-wK-fY7" firstAttribute="top" secondItem="cot-e6-K9h" secondAttribute="bottom" constant="8" id="kFH-SM-ul3"/>
                     <constraint firstItem="kMu-Oj-Pk2" firstAttribute="top" secondItem="9aF-QW-vOg" secondAttribute="bottom" constant="8" id="nTY-MJ-CgL"/>
+                    <constraint firstItem="cot-e6-K9h" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="10" id="nZV-uc-FzQ"/>
                     <constraint firstAttribute="trailing" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="463" id="noK-r1-i9B"/>
-                    <constraint firstItem="Clq-CW-b8X" firstAttribute="top" secondItem="7cB-Bx-YVt" secondAttribute="bottom" constant="8" id="oiA-5F-x5Z"/>
                     <constraint firstItem="nbC-H8-ttP" firstAttribute="top" secondItem="vfE-3e-6oE" secondAttribute="bottom" constant="8" id="p4B-bO-thU"/>
                     <constraint firstItem="vfE-3e-6oE" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="8" id="pId-fj-18D"/>
                     <constraint firstAttribute="trailing" secondItem="kMu-Oj-Pk2" secondAttribute="trailing" constant="20" id="rlT-mb-2bE"/>
                     <constraint firstItem="9aF-QW-vOg" firstAttribute="leading" secondItem="P6V-4X-mdH" secondAttribute="trailing" constant="10" id="s7h-IW-wWB"/>
                     <constraint firstAttribute="bottom" secondItem="P6V-4X-mdH" secondAttribute="bottom" constant="62" id="siM-dC-w0S"/>
-                    <constraint firstItem="Clq-CW-b8X" firstAttribute="leading" secondItem="kMu-Oj-Pk2" secondAttribute="leading" id="swP-2N-iS6"/>
+                    <constraint firstAttribute="trailing" secondItem="cot-e6-K9h" secondAttribute="trailing" constant="18" id="sva-hE-rtW"/>
                     <constraint firstItem="s5m-ur-2bZ" firstAttribute="leading" secondItem="WO5-30-6Pw" secondAttribute="trailing" constant="22" id="wGF-Pf-AyS"/>
+                    <constraint firstAttribute="trailing" secondItem="zat-wK-fY7" secondAttribute="trailing" constant="18" id="wH6-qi-SM5"/>
                     <constraint firstItem="P6V-4X-mdH" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="-1" id="wKL-s5-tQ1"/>
+                    <constraint firstItem="zat-wK-fY7" firstAttribute="top" secondItem="cot-e6-K9h" secondAttribute="bottom" constant="8" id="wn6-gf-CMj"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cot-e6-K9h" secondAttribute="trailing" constant="18" id="zaB-bY-HHy"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="609.5" y="291.5"/>
