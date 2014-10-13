@@ -395,6 +395,8 @@ typedef enum {
     if ([[self managedObjectContext] hasChanges] && ![[self managedObjectContext] save:&error]) {
         [[NSApplication sharedApplication] presentError:error];
     }
+
+	[self _saveSlides];
 }
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
