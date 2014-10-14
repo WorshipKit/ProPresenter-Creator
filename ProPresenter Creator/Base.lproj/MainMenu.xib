@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6245" systemVersion="14A314h" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6245"/>
     </dependencies>
@@ -13,7 +13,6 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate">
             <connections>
-                <outlet property="documentController" destination="hOR-vb-057" id="CpS-um-dpv"/>
                 <outlet property="saveSettingMatrix" destination="xS4-1V-5Lf" id="kni-bY-474"/>
                 <outlet property="saveView" destination="FDZ-FK-mjZ" id="mYN-wF-z9H"/>
                 <outlet property="slidesController" destination="RVX-9K-aDE" id="XUU-WB-dph"/>
@@ -663,7 +662,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="118" y="659" width="771" height="643"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <value key="minSize" type="size" width="771" height="643"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="771" height="643"/>
@@ -794,7 +793,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="addSlide:" target="Voe-Tx-rLC" id="xlw-aw-GKS"/>
+                            <action selector="addSlide:" target="Voe-Tx-rLC" id="oDL-2x-k9T"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="s5m-ur-2bZ">
@@ -809,7 +808,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="removeSlide:" target="Voe-Tx-rLC" id="4fa-ax-LX8"/>
+                            <action selector="removeSlide:" target="Voe-Tx-rLC" id="0Xp-n5-hqM"/>
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="42F-ek-9qq">
@@ -817,7 +816,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="Xpg-aD-99f"/>
                         </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="2Wa-Qe-jbR">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="2Wa-Qe-jbR">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -878,13 +877,13 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kMu-Oj-Pk2">
+                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kMu-Oj-Pk2">
                         <rect key="frame" x="316" y="214" width="435" height="157"/>
                         <constraints>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="157" id="DPG-Iw-NT9"/>
                             <constraint firstAttribute="height" constant="157" id="sjR-J1-Fls"/>
                         </constraints>
-                        <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="lZF-Ys-lqd">
+                        <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Text" drawsBackground="YES" id="lZF-Ys-lqd">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1085,11 +1084,6 @@
             </subviews>
             <point key="canvasLocation" x="549" y="767.5"/>
         </customView>
-        <objectController mode="entity" entityName="Document" automaticallyPreparesContent="YES" id="hOR-vb-057">
-            <connections>
-                <binding destination="Voe-Tx-rLC" name="managedObjectContext" keyPath="managedObjectContext" id="Ry3-AY-v22"/>
-            </connections>
-        </objectController>
         <arrayController mode="entity" entityName="Slide" automaticallyPreparesContent="YES" id="RVX-9K-aDE">
             <connections>
                 <binding destination="Voe-Tx-rLC" name="managedObjectContext" keyPath="managedObjectContext" id="I7X-9X-Xwp"/>
