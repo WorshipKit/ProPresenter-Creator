@@ -223,16 +223,16 @@ typedef enum {
 		}
 		else if ([[slide valueForKey:@"type"] isEqualToString:@"scripture"])
 		{
-			NSMutableCharacterSet * phraseCharacterSet = [NSMutableCharacterSet punctuationCharacterSet];
-			[phraseCharacterSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
-			[phraseCharacterSet formUnionWithCharacterSet:[NSCharacterSet newlineCharacterSet]];
+			NSMutableCharacterSet * phraseCharacterSet = [NSMutableCharacterSet whitespaceAndNewlineCharacterSet];
+//			[phraseCharacterSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
+//			[phraseCharacterSet formUnionWithCharacterSet:[NSCharacterSet newlineCharacterSet]];
 			NSMutableArray * slideSentences = [NSMutableArray arrayWithArray:[[slide valueForKey:@"text"] componentsSeparatedByCharactersInSet:phraseCharacterSet]];
 			NSInteger easyCharacterLimit = 200;
 			NSInteger overflowCharacterLimit = 250;
 			if (style == LowerThirdSlideStyle)
 			{
-				easyCharacterLimit = 94;
-				overflowCharacterLimit = 100;
+				easyCharacterLimit = 98;
+				overflowCharacterLimit = 105;
 			}
 			NSMutableArray * slideTextResults = [NSMutableArray array];
 
@@ -240,11 +240,19 @@ typedef enum {
 				NSMutableString * textData = [NSMutableString string];
 				while ([textData length] < easyCharacterLimit && [slideSentences firstObject]) {
 					[textData appendString:[slideSentences firstObject]];
+					[textData appendString:@" "];
 					[slideSentences removeObjectAtIndex:0];
 				}
 				if ([slideSentences firstObject] && [[textData stringByAppendingString:[slideSentences firstObject]] length] <= overflowCharacterLimit)
 				{
 					[textData appendString:[slideSentences firstObject]];
+					[textData appendString:@" "];
+					[slideSentences removeObjectAtIndex:0];
+				}
+				if ([slideSentences count] == 1)
+				{
+					[textData appendString:[slideSentences firstObject]];
+					[textData appendString:@" "];
 					[slideSentences removeObjectAtIndex:0];
 				}
 
