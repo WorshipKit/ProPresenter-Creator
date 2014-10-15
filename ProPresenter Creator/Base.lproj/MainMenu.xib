@@ -1056,11 +1056,11 @@
             <point key="canvasLocation" x="609.5" y="291.5"/>
         </window>
         <customView id="FDZ-FK-mjZ">
-            <rect key="frame" x="0.0" y="0.0" width="304" height="77"/>
+            <rect key="frame" x="0.0" y="0.0" width="304" height="94"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xS4-1V-5Lf">
-                    <rect key="frame" x="20" y="19" width="264" height="38"/>
+                    <rect key="frame" x="28" y="16" width="122" height="58"/>
                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     <size key="cellSize" width="122" height="18"/>
                     <size key="intercellSpacing" width="4" height="2"/>
@@ -1078,11 +1078,15 @@
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
+                            <buttonCell type="radio" title="Lower-thirds" imagePosition="left" alignment="left" inset="2" id="Nt8-wz-jGq">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
                         </column>
                     </cells>
                 </matrix>
             </subviews>
-            <point key="canvasLocation" x="549" y="767.5"/>
+            <point key="canvasLocation" x="549" y="776"/>
         </customView>
         <arrayController mode="entity" entityName="Slide" automaticallyPreparesContent="YES" id="RVX-9K-aDE">
             <connections>

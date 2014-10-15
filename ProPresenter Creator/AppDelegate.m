@@ -20,9 +20,15 @@ CGFloat parkwayRegularFontSize = 45.0f;
 NSInteger parkwaySlideWidth = 1024;
 NSInteger parkwaySlideHeight = 768;
 
+CGFloat lowerTitleFontSize = 117.0f;
+CGFloat lowerRegularFontSize = 108.0f;
+NSInteger lowerSlideWidth = 2560;
+NSInteger lowerSlideHeight = 1440;
+
 typedef enum {
 	KnoxvilleSlideStyle,
 	ParkwaySlideStyle,
+	LowerThirdSlideStyle
 } SlideStyle;
 
 @interface AppDelegate ()
@@ -119,6 +125,10 @@ typedef enum {
 		{
 			style = ParkwaySlideStyle;
 		}
+		else if (_saveSettingMatrix.selectedRow == 2)
+		{
+			style = LowerThirdSlideStyle;
+		}
 
 		[self _saveSlidesFromArray:slideArray inStyle:style toURL:[documentSavePanel URL]];
 	}
@@ -145,6 +155,17 @@ typedef enum {
 		documentTemplatePath = [[NSBundle mainBundle] pathForResource:@"parkway_document" ofType:@"slidetemplate"];
 		titleTemplatePath = [[NSBundle mainBundle] pathForResource:@"parkway_title" ofType:@"slidetemplate"];
 		scriptureTemplatePath = [[NSBundle mainBundle] pathForResource:@"parkway_scripture" ofType:@"slidetemplate"];
+	}
+	else if (style == LowerThirdSlideStyle)
+	{
+		slideWidth = lowerSlideWidth;
+		slideHeight = lowerSlideHeight;
+		titleFontSize = lowerTitleFontSize;
+		regularFontSize = lowerRegularFontSize;
+
+		documentTemplatePath = [[NSBundle mainBundle] pathForResource:@"lower_document" ofType:@"slidetemplate"];
+		titleTemplatePath = [[NSBundle mainBundle] pathForResource:@"lower_title" ofType:@"slidetemplate"];
+		scriptureTemplatePath = [[NSBundle mainBundle] pathForResource:@"lower_scripture" ofType:@"slidetemplate"];
 	}
 
 	NSURL * resultingFileURL = saveURL;
@@ -202,9 +223,17 @@ typedef enum {
 		}
 		else if ([[slide valueForKey:@"type"] isEqualToString:@"scripture"])
 		{
-			NSMutableArray * slideSentences = [NSMutableArray arrayWithArray:[[slide valueForKey:@"text"] componentsSeparatedByString:@". "]];
+			NSMutableCharacterSet * phraseCharacterSet = [NSMutableCharacterSet punctuationCharacterSet];
+			[phraseCharacterSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
+			[phraseCharacterSet formUnionWithCharacterSet:[NSCharacterSet newlineCharacterSet]];
+			NSMutableArray * slideSentences = [NSMutableArray arrayWithArray:[[slide valueForKey:@"text"] componentsSeparatedByCharactersInSet:phraseCharacterSet]];
 			NSInteger easyCharacterLimit = 200;
 			NSInteger overflowCharacterLimit = 250;
+			if (style == LowerThirdSlideStyle)
+			{
+				easyCharacterLimit = 94;
+				overflowCharacterLimit = 100;
+			}
 			NSMutableArray * slideTextResults = [NSMutableArray array];
 
 			while ([slideSentences count] > 0) {
