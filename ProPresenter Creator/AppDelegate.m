@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Jason Terhorst. All rights reserved.
 //
 
+#import <CoreFoundation/CoreFoundation.h>
 #import "AppDelegate.h"
 
 #import "ZipArchive.h"
@@ -169,6 +170,7 @@ typedef enum {
 	}
 
 	NSURL * resultingFileURL = saveURL;
+	NSString * escapedDocumentTitle = (__bridge NSString *)(CFXMLCreateStringByEscapingEntities(NULL, (__bridge CFStringRef)([[[resultingFileURL path] lastPathComponent] stringByDeletingPathExtension]), NULL));
 	NSString * documentTitle = [[[resultingFileURL path] lastPathComponent] stringByDeletingPathExtension];
 
 	[[NSFileManager defaultManager] removeItemAtURL:resultingFileURL error:nil];
@@ -320,7 +322,7 @@ typedef enum {
 
 	NSString * documentTemplate = [NSString stringWithContentsOfFile:documentTemplatePath encoding:NSUTF8StringEncoding error:nil];
 
-	NSDictionary * replacements = @{@"document title":[[xmlDocumentPath lastPathComponent] stringByDeletingPathExtension], @"document height":[NSString stringWithFormat:@"%ld", (long)slideHeight], @"document width":[NSString stringWithFormat:@"%ld", (long)slideWidth], @"date":[sRFC3339DateFormatter stringFromDate:[NSDate date]], @"group uuid":[[NSUUID UUID] UUIDString], @"slides":slideData};
+	NSDictionary * replacements = @{@"document title":escapedDocumentTitle, @"document height":[NSString stringWithFormat:@"%ld", (long)slideHeight], @"document width":[NSString stringWithFormat:@"%ld", (long)slideWidth], @"date":[sRFC3339DateFormatter stringFromDate:[NSDate date]], @"group uuid":[[NSUUID UUID] UUIDString], @"slides":slideData};
 	NSString * documentTest = [self _resultUpdatingTemplate:documentTemplate withDictionary:replacements];
 	//NSString * documentTest = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"slidetemplate"] encoding:NSUTF8StringEncoding error:nil];
 
