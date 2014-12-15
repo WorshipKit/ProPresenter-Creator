@@ -347,7 +347,11 @@ typedef enum {
 - (IBAction)addSlide:(id)sender;
 {
 	NSManagedObject * newSlide = [NSEntityDescription insertNewObjectForEntityForName:@"Slide" inManagedObjectContext:[self managedObjectContext]];
-	[newSlide setPrimitiveValue:@([[_slidesController arrangedObjects] count]) forKey:@"index"];
+	NSInteger newIndex = [[_slidesController arrangedObjects] count];
+	[newSlide setPrimitiveValue:@(newIndex) forKey:@"index"];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+		[_slidesController setSelectedObjects:@[newSlide]];
+	});
 }
 
 - (IBAction)selectMediaFile:(id)sender
