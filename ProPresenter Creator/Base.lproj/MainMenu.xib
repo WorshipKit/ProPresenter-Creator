@@ -1199,6 +1199,13 @@
                                                 <action selector="selectMediaFile:" target="Voe-Tx-rLC" id="rLi-dd-rAB"/>
                                             </connections>
                                         </button>
+                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kcK-OA-QgD">
+                                            <rect key="frame" x="33" y="148" width="383" height="252"/>
+                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" id="yNk-kF-BB0"/>
+                                            <connections>
+                                                <binding destination="RVX-9K-aDE" name="valuePath" keyPath="selection.mediaPath" id="XeW-5L-b9k"/>
+                                            </connections>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="bW7-sH-xrg" firstAttribute="leading" secondItem="GHv-UI-ecp" secondAttribute="leading" constant="7" id="0aR-Gf-zZx"/>
