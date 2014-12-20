@@ -204,9 +204,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		581D3E5519E36F9E004AD7A6 /* ProPresenter Creator */ = {
+		581D3E5519E36F9E004AD7A6 /* Sermon Slide Maker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 581D3E7619E36F9E004AD7A6 /* Build configuration list for PBXNativeTarget "ProPresenter Creator" */;
+			buildConfigurationList = 581D3E7619E36F9E004AD7A6 /* Build configuration list for PBXNativeTarget "Sermon Slide Maker" */;
 			buildPhases = (
 				581D3E5219E36F9E004AD7A6 /* Sources */,
 				581D3E5319E36F9E004AD7A6 /* Frameworks */,
@@ -216,7 +216,7 @@
 			);
 			dependencies = (
 			);
-			name = "ProPresenter Creator";
+			name = "Sermon Slide Maker";
 			productName = "ProPresenter Creator";
 			productReference = 581D3E5619E36F9E004AD7A6 /* ProPresenter Creator.app */;
 			productType = "com.apple.product-type.application";
@@ -270,7 +270,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				581D3E5519E36F9E004AD7A6 /* ProPresenter Creator */,
+				581D3E5519E36F9E004AD7A6 /* Sermon Slide Maker */,
 				581D3E6B19E36F9E004AD7A6 /* ProPresenter CreatorTests */,
 			);
 		};
@@ -338,7 +338,7 @@
 /* Begin PBXTargetDependency section */
 		581D3E6E19E36F9E004AD7A6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 581D3E5519E36F9E004AD7A6 /* ProPresenter Creator */;
+			target = 581D3E5519E36F9E004AD7A6 /* Sermon Slide Maker */;
 			targetProxy = 581D3E6D19E36F9E004AD7A6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -501,7 +501,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		581D3E7619E36F9E004AD7A6 /* Build configuration list for PBXNativeTarget "ProPresenter Creator" */ = {
+		581D3E7619E36F9E004AD7A6 /* Build configuration list for PBXNativeTarget "Sermon Slide Maker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				581D3E7719E36F9E004AD7A6 /* Debug */,
