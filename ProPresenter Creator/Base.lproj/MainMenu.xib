@@ -830,14 +830,15 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="Ihp-tH-DF8"/>
                                             </constraints>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="6IT-xk-4ZD">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="6IT-xk-4ZD">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.label" id="jkN-zx-NXx">
+                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.label" id="8Ox-VM-sIC">
                                                     <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                         <string key="NSNullPlaceholder">Label</string>
                                                     </dictionary>
                                                 </binding>
@@ -881,14 +882,15 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="157" id="J0q-Ue-ohp"/>
                                             </constraints>
-                                            <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Text" drawsBackground="YES" id="7im-2g-Skl">
+                                            <textFieldCell key="cell" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Text" drawsBackground="YES" id="7im-2g-Skl">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.text" id="Y3B-qy-I7T">
+                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.text" id="YyA-eP-BzD">
                                                     <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                         <string key="NSNullPlaceholder">Long form text</string>
                                                     </dictionary>
                                                 </binding>
@@ -953,14 +955,15 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="SA5-G8-77P"/>
                                             </constraints>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="F8g-xN-aZn">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="F8g-xN-aZn">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.label" id="ZPc-xs-SVR">
+                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.label" id="2Bk-5G-h9m">
                                                     <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                         <string key="NSNullPlaceholder">Label</string>
                                                     </dictionary>
                                                 </binding>
@@ -1005,14 +1008,15 @@
                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="157" id="M5k-Q4-9nF"/>
                                                 <constraint firstAttribute="height" constant="157" id="dOq-03-zdz"/>
                                             </constraints>
-                                            <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Text" drawsBackground="YES" id="AEk-3b-hlP">
+                                            <textFieldCell key="cell" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Text" drawsBackground="YES" id="AEk-3b-hlP">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.text" id="P1s-tR-M9E">
+                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.text" id="h4m-0Y-G89">
                                                     <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                         <string key="NSNullPlaceholder">Long form text</string>
                                                     </dictionary>
                                                 </binding>
@@ -1095,14 +1099,15 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="C4h-eW-ZH9"/>
                                             </constraints>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="Nte-yX-4cj">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="Nte-yX-4cj">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.label" id="VbH-YT-hma">
+                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.label" id="DdA-IN-cL2">
                                                     <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                         <string key="NSNullPlaceholder">Label</string>
                                                     </dictionary>
                                                 </binding>
@@ -1241,14 +1246,15 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="OsR-vO-Tpc"/>
                                             </constraints>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="n8z-IH-aLZ">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Label" drawsBackground="YES" id="n8z-IH-aLZ">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.label" id="hYw-yy-JQs">
+                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.label" id="ge6-ei-C6i">
                                                     <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                         <string key="NSNullPlaceholder">Label</string>
                                                     </dictionary>
                                                 </binding>
@@ -1292,14 +1298,15 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="157" id="fWu-rQ-Qoh"/>
                                             </constraints>
-                                            <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Text" drawsBackground="YES" id="OiE-Kn-K7i">
+                                            <textFieldCell key="cell" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Text" drawsBackground="YES" id="OiE-Kn-K7i">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.text" id="yiU-0q-M9C">
+                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.text" id="Efd-26-0Rd">
                                                     <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                         <string key="NSNullPlaceholder">Long form text</string>
                                                     </dictionary>
                                                 </binding>
@@ -1336,14 +1343,15 @@
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="22" id="vLv-IR-LDa"/>
                                             </constraints>
-                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Pbo-9O-dQp">
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Pbo-9O-dQp">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <connections>
-                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.reference" id="hrx-Ls-iui">
+                                                <binding destination="RVX-9K-aDE" name="value" keyPath="selection.reference" id="Gw3-tt-bb3">
                                                     <dictionary key="options">
+                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                         <string key="NSNullPlaceholder">John 3:16 (NIV)</string>
                                                     </dictionary>
                                                 </binding>
