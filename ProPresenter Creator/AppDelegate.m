@@ -225,32 +225,56 @@ typedef enum {
 		}
 		else if ([[slide valueForKey:@"type"] isEqualToString:@"scripture"])
 		{
-			NSMutableCharacterSet * phraseCharacterSet = [NSMutableCharacterSet whitespaceAndNewlineCharacterSet];
-//			[phraseCharacterSet formUnionWithCharacterSet:[NSCharacterSet symbolCharacterSet]];
-//			[phraseCharacterSet formUnionWithCharacterSet:[NSCharacterSet newlineCharacterSet]];
-			NSMutableArray * slideSentences = [NSMutableArray arrayWithArray:[[slide valueForKey:@"text"] componentsSeparatedByCharactersInSet:phraseCharacterSet]];
-			NSInteger easyCharacterLimit = 200;
-			NSInteger overflowCharacterLimit = 250;
+			NSCharacterSet * punctuatedCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@".!"];
+			NSCharacterSet * endingQuotationCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"”\"'"];
+			NSMutableArray * slideSentences = [NSMutableArray array];//[NSMutableArray arrayWithArray:[[slide valueForKey:@"text"] componentsSeparatedByCharactersInSet:phraseCharacterSet]];
+			NSScanner * sentenceScanner = [NSScanner scannerWithString:[slide valueForKey:@"text"]];
+			while (![sentenceScanner isAtEnd]) {
+				NSString * nextSentence = nil;
+
+				if ([sentenceScanner scanUpToCharactersFromSet:punctuatedCharacterSet intoString:&nextSentence])
+				{
+					NSString * punctuationBit = nil;
+					while ([sentenceScanner scanCharactersFromSet:punctuatedCharacterSet intoString:&punctuationBit])
+					{
+						nextSentence = [nextSentence stringByAppendingString:punctuationBit];
+						punctuationBit = nil;
+					}
+					while ([sentenceScanner scanCharactersFromSet:endingQuotationCharacterSet intoString:&punctuationBit])
+					{
+						nextSentence = [nextSentence stringByAppendingString:punctuationBit];
+						punctuationBit = nil;
+					}
+					NSLog(@"scanned sentence: %@", nextSentence);
+					[slideSentences addObject:nextSentence];
+				}
+
+			}
+
+			NSMutableParagraphStyle * textParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+			[textParagraphStyle setAlignment:NSLeftTextAlignment];
+			NSDictionary * slideTextAttributes = @{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:textParagraphStyle};
+
+			CGFloat textWidth = 895.86;
+			CGFloat textMaxHeight = 800;
 			if (style == LowerThirdSlideStyle)
 			{
-				easyCharacterLimit = 98;
-				overflowCharacterLimit = 105;
+				textMaxHeight = 300;
 			}
 			NSMutableArray * slideTextResults = [NSMutableArray array];
 
 			while ([slideSentences count] > 0) {
 				NSMutableString * textData = [NSMutableString string];
-				while ([textData length] < easyCharacterLimit && [slideSentences firstObject]) {
+				while ([textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin attributes:slideTextAttributes].size.height <= textMaxHeight && [slideSentences firstObject]) {
+					NSRect existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin attributes:slideTextAttributes];
+					NSLog(@"text: %f by %f", existingTextRect.size.width, existingTextRect.size.height);
 					[textData appendString:[slideSentences firstObject]];
 					[textData appendString:@" "];
 					[slideSentences removeObjectAtIndex:0];
+					existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin attributes:slideTextAttributes];
+					NSLog(@"after text: %f by %f", existingTextRect.size.width, existingTextRect.size.height);
 				}
-				if ([slideSentences firstObject] && [[textData stringByAppendingString:[slideSentences firstObject]] length] <= overflowCharacterLimit)
-				{
-					[textData appendString:[slideSentences firstObject]];
-					[textData appendString:@" "];
-					[slideSentences removeObjectAtIndex:0];
-				}
+				
 				if ([slideSentences count] == 1)
 				{
 					[textData appendString:[slideSentences firstObject]];
@@ -268,9 +292,7 @@ typedef enum {
 			for (NSString * slideText in slideTextResults)
 			{
 				NSLog(@"slide: %d, formatting: %@", slideIndex, slideText);
-				NSMutableParagraphStyle * textParagraphStyle = [[NSMutableParagraphStyle alloc] init];
-				[textParagraphStyle setAlignment:NSLeftTextAlignment];
-				NSAttributedString * textString = [[NSAttributedString alloc] initWithString:slideText attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:textParagraphStyle}];
+				NSAttributedString * textString = [[NSAttributedString alloc] initWithString:slideText attributes:slideTextAttributes];
 
 				NSMutableParagraphStyle * referenceParagraphStyle = [[NSMutableParagraphStyle alloc] init];
 				[referenceParagraphStyle setAlignment:NSRightTextAlignment];
@@ -324,7 +346,6 @@ typedef enum {
 
 	NSDictionary * replacements = @{@"document title":escapedDocumentTitle, @"document height":[NSString stringWithFormat:@"%ld", (long)slideHeight], @"document width":[NSString stringWithFormat:@"%ld", (long)slideWidth], @"date":[sRFC3339DateFormatter stringFromDate:[NSDate date]], @"group uuid":[[NSUUID UUID] UUIDString], @"slides":slideData};
 	NSString * documentTest = [self _resultUpdatingTemplate:documentTemplate withDictionary:replacements];
-	//NSString * documentTest = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"sample" ofType:@"slidetemplate"] encoding:NSUTF8StringEncoding error:nil];
 
 	NSError * error = nil;
 	[documentTest writeToFile:xmlDocumentPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
