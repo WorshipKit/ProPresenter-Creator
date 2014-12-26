@@ -255,23 +255,23 @@ typedef enum {
 			[textParagraphStyle setAlignment:NSLeftTextAlignment];
 			NSDictionary * slideTextAttributes = @{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:textParagraphStyle};
 
-			CGFloat textWidth = 895.86;
-			CGFloat textMaxHeight = 800;
+			CGFloat textWidth = 1905/[[NSScreen mainScreen] backingScaleFactor];
+			CGFloat textMaxHeight = 1115/[[NSScreen mainScreen] backingScaleFactor];
 			if (style == LowerThirdSlideStyle)
 			{
-				textMaxHeight = 300;
+				textMaxHeight = 400;
 			}
 			NSMutableArray * slideTextResults = [NSMutableArray array];
 
 			while ([slideSentences count] > 0) {
 				NSMutableString * textData = [NSMutableString string];
-				while ([textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin attributes:slideTextAttributes].size.height <= textMaxHeight && [slideSentences firstObject]) {
-					NSRect existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin attributes:slideTextAttributes];
+				while ([textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes].size.height <= textMaxHeight && [slideSentences firstObject]) {
+					NSRect existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes];
 					NSLog(@"text: %f by %f", existingTextRect.size.width, existingTextRect.size.height);
 					[textData appendString:[slideSentences firstObject]];
 					[textData appendString:@" "];
 					[slideSentences removeObjectAtIndex:0];
-					existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin attributes:slideTextAttributes];
+					existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes];
 					NSLog(@"after text: %f by %f", existingTextRect.size.width, existingTextRect.size.height);
 				}
 				
