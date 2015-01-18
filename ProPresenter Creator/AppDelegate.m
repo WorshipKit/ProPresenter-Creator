@@ -251,44 +251,70 @@ typedef enum {
 
 			}
 
+			NSMutableArray * slideWords = [NSMutableArray arrayWithArray:[[slide valueForKey:@"text"] componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
+
 			NSMutableParagraphStyle * textParagraphStyle = [[NSMutableParagraphStyle alloc] init];
 			[textParagraphStyle setAlignment:NSLeftTextAlignment];
 			NSDictionary * slideTextAttributes = @{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:textParagraphStyle};
 
 			CGFloat textWidth = 1905/[[NSScreen mainScreen] backingScaleFactor];
 			CGFloat textMaxHeight = 1115/[[NSScreen mainScreen] backingScaleFactor];
+			CGFloat maxWordCount = 0;
 			if (style == LowerThirdSlideStyle)
 			{
-				textMaxHeight = 400;
+				//textMaxHeight = 10;
+				maxWordCount = 23;
 			}
 			NSMutableArray * slideTextResults = [NSMutableArray array];
 
-			while ([slideSentences count] > 0) {
-				NSMutableString * textData = [NSMutableString string];
-				while ([textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes].size.height <= textMaxHeight && [slideSentences firstObject]) {
-					NSRect existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes];
-					NSLog(@"text: %f by %f", existingTextRect.size.width, existingTextRect.size.height);
-					[textData appendString:[slideSentences firstObject]];
-					[textData appendString:@" "];
-					[slideSentences removeObjectAtIndex:0];
-					existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes];
-					NSLog(@"after text: %f by %f", existingTextRect.size.width, existingTextRect.size.height);
-				}
-				
-				if ([slideSentences count] == 1)
-				{
-					[textData appendString:[slideSentences firstObject]];
-					[textData appendString:@" "];
-					[slideSentences removeObjectAtIndex:0];
-				}
+			if (maxWordCount == 0)
+			{
+				while ([slideSentences count] > 0) {
+					NSMutableString * textData = [NSMutableString string];
+					while ([textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes].size.height <= textMaxHeight && [slideSentences firstObject]) {
+						NSRect existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes];
+						NSLog(@"text: %f by %f", existingTextRect.size.width, existingTextRect.size.height);
+						[textData appendString:[slideSentences firstObject]];
+						[textData appendString:@" "];
+						[slideSentences removeObjectAtIndex:0];
+						existingTextRect = [textData boundingRectWithSize:NSMakeSize(textWidth, NSIntegerMax) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading|NSStringDrawingUsesDeviceMetrics attributes:slideTextAttributes];
+						NSLog(@"after text: %f by %f", existingTextRect.size.width, existingTextRect.size.height);
+					}
 
-				if ([textData length] > 0)
-				{
-					//NSLog(@"adding: %@", textData);
-					[slideTextResults addObject:textData];
+					if ([slideSentences count] == 1)
+					{
+						[textData appendString:[slideSentences firstObject]];
+						[textData appendString:@" "];
+						[slideSentences removeObjectAtIndex:0];
+					}
+
+					if ([textData length] > 0)
+					{
+						//NSLog(@"adding: %@", textData);
+						[slideTextResults addObject:textData];
+					}
+				}
+			}
+			else
+			{
+				while ([slideWords count] > 0) {
+					NSMutableString * textData = [NSMutableString string];
+					NSInteger wordCount = 0;
+					while (wordCount < maxWordCount && [slideWords count] > 0) {
+						[textData appendString:[slideWords firstObject]];
+						[textData appendString:@" "];
+						[slideWords removeObjectAtIndex:0];
+						wordCount++;
+					}
+					if ([textData length] > 0)
+					{
+						//NSLog(@"adding: %@", textData);
+						[slideTextResults addObject:textData];
+					}
 				}
 			}
 
+			NSInteger scriptureSlideIndex = 0;
 			for (NSString * slideText in slideTextResults)
 			{
 				NSLog(@"slide: %d, formatting: %@", slideIndex, slideText);
@@ -296,17 +322,28 @@ typedef enum {
 
 				NSMutableParagraphStyle * referenceParagraphStyle = [[NSMutableParagraphStyle alloc] init];
 				[referenceParagraphStyle setAlignment:NSRightTextAlignment];
-				NSAttributedString * referenceString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"reference"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Regular" size:regularFontSize], NSParagraphStyleAttributeName:referenceParagraphStyle}];
+				if (style == LowerThirdSlideStyle)
+				{
+					[referenceParagraphStyle setAlignment:NSLeftTextAlignment];
+				}
+
+				NSString * referenceText = [slide valueForKey:@"reference"];
+				if (style == LowerThirdSlideStyle && scriptureSlideIndex > 0)
+				{
+					referenceText = @"";
+				}
+				NSAttributedString * referenceAttributedString = [[NSAttributedString alloc] initWithString:referenceText attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Regular" size:regularFontSize], NSParagraphStyleAttributeName:referenceParagraphStyle}];
 
 				template = [NSString stringWithContentsOfFile:scriptureTemplatePath encoding:NSUTF8StringEncoding error:nil];
 				[replacements setObject:[self dataStringFromAttributedString:textString] forKey:@"body rtf data"];
-				[replacements setObject:[self dataStringFromAttributedString:referenceString] forKey:@"reference rtf data"];
+				[replacements setObject:[self dataStringFromAttributedString:referenceAttributedString] forKey:@"reference rtf data"];
 				[replacements setObject:[NSString stringWithFormat:@"%d", slideIndex] forKey:@"index"];
 
 				NSString * slidePayload = [self _resultUpdatingTemplate:template withDictionary:replacements];
 				[slideData appendString:slidePayload];
 
 				slideIndex++;
+				scriptureSlideIndex++;
 			}
 		}
 		else if ([[slide valueForKey:@"type"] isEqualToString:@"media"])
