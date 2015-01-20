@@ -328,10 +328,7 @@ typedef enum {
 				}
 
 				NSString * referenceText = [slide valueForKey:@"reference"];
-				if (style == LowerThirdSlideStyle && scriptureSlideIndex > 0)
-				{
-					referenceText = @"";
-				}
+				
 				NSAttributedString * referenceAttributedString = [[NSAttributedString alloc] initWithString:referenceText attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Regular" size:regularFontSize], NSParagraphStyleAttributeName:referenceParagraphStyle}];
 
 				template = [NSString stringWithContentsOfFile:scriptureTemplatePath encoding:NSUTF8StringEncoding error:nil];
