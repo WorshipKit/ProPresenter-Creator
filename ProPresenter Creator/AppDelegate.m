@@ -199,7 +199,9 @@ typedef enum {
 		{
 			NSMutableParagraphStyle * titleParagraphStyle = [[NSMutableParagraphStyle alloc] init];
 			[titleParagraphStyle setAlignment:NSCenterTextAlignment];
-			NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"text"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:titleFontSize], NSParagraphStyleAttributeName:titleParagraphStyle}];
+            NSString * text = [slide valueForKey:@"text"];
+            if (!text) text = @"";
+			NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:titleFontSize], NSParagraphStyleAttributeName:titleParagraphStyle}];
 
 			template = [NSString stringWithContentsOfFile:titleTemplatePath encoding:NSUTF8StringEncoding error:nil];
 			[replacements setObject:[self dataStringFromAttributedString:titleString] forKey:@"rtf data"];
@@ -213,7 +215,9 @@ typedef enum {
 		{
 			NSMutableParagraphStyle * titleParagraphStyle = [[NSMutableParagraphStyle alloc] init];
 			[titleParagraphStyle setAlignment:NSCenterTextAlignment];
-			NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:[slide valueForKey:@"text"] attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:titleParagraphStyle}];
+            NSString * text = [slide valueForKey:@"text"];
+            if (!text) text = @"";
+			NSAttributedString * titleString = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Bold" size:regularFontSize], NSParagraphStyleAttributeName:titleParagraphStyle}];
 
 			template = [NSString stringWithContentsOfFile:titleTemplatePath encoding:NSUTF8StringEncoding error:nil];
 			[replacements setObject:[self dataStringFromAttributedString:titleString] forKey:@"rtf data"];
@@ -228,7 +232,9 @@ typedef enum {
 			NSCharacterSet * punctuatedCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@".!"];
 			NSCharacterSet * endingQuotationCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"”\"'"];
 			NSMutableArray * slideSentences = [NSMutableArray array];//[NSMutableArray arrayWithArray:[[slide valueForKey:@"text"] componentsSeparatedByCharactersInSet:phraseCharacterSet]];
-			NSScanner * sentenceScanner = [NSScanner scannerWithString:[slide valueForKey:@"text"]];
+            NSString * text = [slide valueForKey:@"text"];
+            if (!text) text = @"";
+            NSScanner * sentenceScanner = [NSScanner scannerWithString:text];
 			while (![sentenceScanner isAtEnd]) {
 				NSString * nextSentence = nil;
 
@@ -328,6 +334,7 @@ typedef enum {
 				}
 
 				NSString * referenceText = [slide valueForKey:@"reference"];
+                if (!referenceText) referenceText = @"";
 				
 				NSAttributedString * referenceAttributedString = [[NSAttributedString alloc] initWithString:referenceText attributes:@{NSForegroundColorAttributeName:[NSColor whiteColor], NSFontAttributeName:[NSFont fontWithName:@"MyriadPro-Regular" size:regularFontSize], NSParagraphStyleAttributeName:referenceParagraphStyle}];
 
